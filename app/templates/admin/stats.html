@@ -1,0 +1,151 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+<h1 class="text-center">Báo cáo thống kê</h1>
+<div class="mb-5">
+    <button id="btnTable" type="button" class="btn btn-info">Bảng</button>
+    <button id="btnChart" type="button" class="btn btn-info">Biểu đồ</button>
+</div>
+<div id="tableDiv" class="w-100 d-none">
+    <table class="table-striped">
+        <tr>
+            <th>Mã sách</th>
+            <th>Tên sách</th>
+            <th>Doanh thu</th>
+        </tr>
+        {% for s in stats %}
+        <tr>
+            <td> {{ s[0] }}</td>
+            <td> {{ s[1] }}</td>
+            <td>
+                {% if s[2] %}
+                {{ "{:,.1f}".format(s[2]) }} VND
+                {% else %}
+                0 VND
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div id="chartDiv" class="w-100 d-none">
+    <button id="barChart" type="button" class="btn btn-info">Biểu đồ cột</button>
+    <button id="doughnutChart" type="button" class="btn btn-info">Biểu đồ vòng</button>
+    <form>
+        <div class="from-group mb-2">
+            <input type="text" class="from-control" name="kw" placeholder="Nhập tên sách..."/>
+        </div>
+        <div class="from-group mb-2">
+            <input type="text" class="from-control" name="author" placeholder="Nhập tên tác giả..."/>
+        </div>
+        <div class="from-group mb-2">
+            <input type="text" class="from-control" name="category" placeholder="Nhập tên loại sách..."/>
+        </div>
+        <div class="from-group mb-2">
+            <input type="date" class="from-control" name="from_date"/>
+        </div>
+        <div class="from-group mb-2">
+            <input type="date" class="from-control" name="to_date"/>
+        </div>
+        <input type="submit" value="Thống kê" class="btn btn-info"/>
+    </form>
+    <canvas id="MyCategoryChart"></canvas>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    <!--  labels chứa name category -->
+    <!--  info số lượng -->
+        let labels = [], info = []
+
+        let r, g ,b;
+        let type;
+        let colors = []
+        let borderColors = []
+
+
+        {% for s in stats %}
+            {% if s[2] %}
+            labels.push(' {{ s[1] }} ')
+            info.push( {{ s[2] }} )
+
+            r = Math.random()*255
+            g = Math.random()*255
+            b = Math.random()*255
+
+            colors.push(`rgba(${r}, ${g}, ${b}, 0.5)`)
+            borderColors.push(`rgba(${r}, ${g}, ${b}, 1)`)
+            {% endif %}
+
+        {% endfor %}
+
+<!--        window.onload = function(){-->
+<!--            const ctx = document.getElementById('MyCategoryChart');-->
+<!--            loadChart(ctx, labels, info, 'bar', colors, borderColors)-->
+<!--        }-->
+
+    let myChart
+
+    function loadChart(ctx, labels, info, type, colors, borderColors){
+          if(myChart){
+            myChart.destroy();
+          }
+          myChart = new Chart(ctx, {
+          type: type,
+          data: {
+              labels: labels,
+              datasets: [{
+                  label: 'Thống kê doanh thu',
+                  data: info,
+                  backgroundColor: colors,
+                  borderColor: borderColors,
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+    }
+
+
+// Lấy các phần tử từ DOM
+const btnTable = document.getElementById('btnTable');
+const btnChart = document.getElementById('btnChart');
+const tableDiv = document.getElementById('tableDiv');
+const chartDiv = document.getElementById('chartDiv');
+const btnBarChart = document.getElementById('barChart');
+const btnDoughnutChart = document.getElementById('doughnutChart');
+
+// Khi click vào nút "Bảng"
+btnTable.addEventListener('click', () => {
+    tableDiv.classList.remove('d-none'); // Hiện bảng
+    chartDiv.classList.add('d-none');   // Ẩn biểu đồ
+});
+
+// Khi click vào nút "Biểu đồ"
+btnChart.addEventListener('click', () => {
+    chartDiv.classList.remove('d-none'); // Hiện biểu đồ
+    tableDiv.classList.add('d-none');    // Ẩn bảng
+});
+
+btnBarChart.addEventListener('click', () => {
+    type = 'bar'
+    const ctx = document.getElementById('MyCategoryChart');
+    loadChart(ctx, labels, info, type, colors, borderColors)
+});
+
+btnDoughnutChart.addEventListener('click', () => {
+    type = 'doughnut'
+    const ctx = document.getElementById('MyCategoryChart');
+    loadChart(ctx, labels, info, type, colors, borderColors)
+});
+
+</script>
+{% endblock%}
