@@ -26,3 +26,10 @@ def book_stats(kw=None, from_date=None, to_date=None, author=None, category=None
     if category:
         b = b.filter(Category.Name.contains(category))
     return b.all()
+
+#Thống kê số lượng tồn kho
+def inventory_stats(name=None):
+        b = db.session.query(Book.id, Book.Name, Book.UnitsInStock)
+        if name:
+            b = b.filter(Book.Name.contains(name))
+        return b.all()

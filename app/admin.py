@@ -23,15 +23,24 @@ class MyAdminIndex(AdminIndexView):
 
 
 class StatsView(BaseView):
+
     @expose('/')
     def index(self):
+        return self.render('admin/stats.html')
+
+    @expose('/revenue')
+    def revenue(self):
         kw = request.args.get('kw')
         from_date = request.args.get('from_date')
         to_date = request.args.get('to_date')
         author = request.args.get('author')
         category = request.args.get('category')
+        return self.render('admin/stats/revenue.html',stats=utils.book_stats(kw=kw, from_date=from_date, to_date=to_date, author=author, category=category))
 
-        return self.render('admin/stats.html', stats=utils.book_stats(kw=kw, from_date=from_date, to_date=to_date, author=author, category=category))
+    @expose('/inventory')
+    def inventory(self):
+        name = request.args.get('name')
+        return self.render('admin/stats/inventory.html', stats=utils.inventory_stats(name=name))
 
 
 admin = Admin(app=app,

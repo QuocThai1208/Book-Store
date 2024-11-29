@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4921867e-cafc-498d-b257-876e282fadcf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/templates/admin/stats.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/css/stats.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/admin/stats/inventory.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/admin/stats/revenue.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/admin/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/admin/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/admin/stats.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/admin/stats.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirement.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirement.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,17 +38,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Python.admin.executor&quot;: &quot;Run&quot;,
-    &quot;Python.index.executor&quot;: &quot;Run&quot;,
-    &quot;Python.models.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/App-Library&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Python.admin.executor": "Run",
+    "Python.index.executor": "Run",
+    "Python.models.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/App-Library"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\App-Library\app\templates\admin\stats" />
+      <recent name="D:\App-Library\app\templates\admin" />
+      <recent name="D:\App-Library\app\templates" />
+    </key>
+  </component>
   <component name="RunManager" selected="Python.index">
     <configuration name="admin" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="App-Library" />
