@@ -45,3 +45,24 @@ def revenue(type_revenue, year):
         ).group_by(Book.id, Book.name, Category.name)
         return b.all()
 
+
+#Tính tổng doanh thu theo tháng
+def month_revenue_total(month):
+    return db.session.query(extract('month', Order.order_date),
+                            func.sum(OrderDetail.quantity * OrderDetail.unit_price)
+                            ).join(OrderDetail, OrderDetail.order_id.__eq__(Order.id)
+                            ).filter(extract('month', Order.order_date) == month
+                            ).group_by(extract('month', Order.order_date)
+                            ).all()
+
+#Tính tổng doanh thu theo năm
+def year_revenue_total(year):
+    return db.session.query(extract('year', Order.order_date),
+                            func.sum(OrderDetail.quantity * OrderDetail.unit_price)
+                            ).join(OrderDetail, OrderDetail.order_id.__eq__(Order.id)
+                            ).filter(extract('year', Order.order_date) == year
+                            ).group_by(extract('year', Order.order_date)
+                            ).all()
+
+
+

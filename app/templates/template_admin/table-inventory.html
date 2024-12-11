@@ -1,5 +1,9 @@
 {% extends 'layout/base_admin.html' %}
 
+{% block title %}
+<title>SB Admin 2 - Table-inventory</title>
+{% endblock %}
+
 {% block styles %}
     <!-- Custom styles for this page -->
     <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">

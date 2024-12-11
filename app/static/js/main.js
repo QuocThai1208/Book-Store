@@ -10,7 +10,7 @@ btnClick.addEventListener('click', function (e){
     // Thêm trạng thái hiển thị vào URL
     const showInput = type === 'revenue-month' ? 'true' : 'false';
 
-    const url = `/admin/statsview/${valueBtnClick}?type_revenue=${encodeURIComponent(type)}&year=${year}&show_input=${showInput}`;
+    const url = `/admin_stats/${valueBtnClick}?type_revenue=${encodeURIComponent(type)}&year=${year}&show_input=${showInput}`;
 // chuyển hướng đến đường dẫn url
     window.location.href = url;
 })

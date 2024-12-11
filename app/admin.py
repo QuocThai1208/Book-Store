@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import session
 
 from app import app, db
@@ -27,13 +29,6 @@ class MyAdminIndex(AdminIndexView):
         return self.render('admin/index.html', stats=utils.category_stats())
 
 
-class StatsView(BaseView):
-
-    @expose('/')
-    def index(self):
-        return self.render('template_admin/index.html')
-
-
 admin = Admin(app=app,
               name="Library Administration",
               template_mode='bootstrap4',
@@ -43,4 +38,4 @@ admin = Admin(app=app,
 admin.add_view(CategoryView(Category, db.session))
 admin.add_view(AuthorView(Author, db.session))
 admin.add_view(BookView(Book, db.session))
-admin.add_view(StatsView(name='Stats'))
+

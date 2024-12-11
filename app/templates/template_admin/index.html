@@ -1,5 +1,9 @@
 {% extends 'layout/base_admin.html' %}
 
+{% block title %}
+<title>SB Admin 2 - Dashboard</title>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
 
@@ -20,9 +24,9 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Doanh thu (Tháng )
+                                Doanh thu (Tháng {{ month_revenue_total[0][0] }})
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ "{:,.0f}".format(month_revenue_total[0][1]) }} VND</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -39,9 +43,9 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Earnings (Annual)
+                                Doanh thu (Năm {{ year_revenue_total[0][0] }})
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ "{:,.0f}".format(year_revenue_total[0][1]) }} VND</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
