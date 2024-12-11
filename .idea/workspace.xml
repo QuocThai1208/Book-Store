@@ -4,22 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="adaef6bc-0ae7-4fc4-b201-275c9b190d2a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/templates/template_admin/book.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/layout/base_admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/layout/base_admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/chart-inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/template_admin/chart-inventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/chart-revenue.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/template_admin/chart-revenue.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/charts.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/forgot-password.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/template_admin/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/table-inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/template_admin/table-inventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/table-revenue.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/template_admin/table-revenue.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils.py" afterDir="false" />
-    </list>
+    <list default="true" id="adaef6bc-0ae7-4fc4-b201-275c9b190d2a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
