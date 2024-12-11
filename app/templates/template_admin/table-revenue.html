@@ -1,0 +1,104 @@
+{% extends 'layout/base_admin.html' %}
+
+{% block styles %}
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+<!-- Custom styles for this page -->
+<link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+
+    <select id="type-revenue" class="form-select mb-3">
+        <option value="revenue-book">Báo cáo doanh thu theo sản phẩm</option>
+        <option value="revenue-month">Báo cáo doanh thu theo tháng</option>
+    </select>
+    <input type="text" id="txtInputOption" class="form-control mb-3" style="display: none;"  onblur="hideInput()" placeholder="Nhập năm..." disabled/>
+    <button class="mb-3 btn btn-info" id="view-stats" value="table-revenue">Xem thông kê</button>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Book Revenue</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    {% if type_revenue == "revenue-book" %}
+                    <thead>
+                    <tr>
+                        <th>Mã sách</th>
+                        <th>Tên sách</th>
+                        <th>Loại Sách</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Mã sách</th>
+                        <th>Tên sách</th>
+                        <th>Loại sách</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for s in stats %}
+                    <tr>
+                        <td> {{ s[0] }}</td>
+                        <td> {{ s[1] }}</td>
+                        <td> {{ s[2] }}</td>
+                        <td>
+                            {% if s[3] %}
+                            {{ "{:,.0f}".format(s[3]) }} VND
+                            {% else %}
+                            0 VND
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                    {% elif type_revenue == "revenue-month" %}
+                    <thead>
+                    <tr>
+                        <th>Tháng</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Tháng</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for s in stats %}
+                    <tr>
+                        <td> {{ s[0] }}</td>
+                        <td>
+                            {% if s[1] %}
+                            {{ "{:,.0f}".format(s[1]) }} VND
+                            {% else %}
+                            0 VND
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<!-- Page level plugins -->
+<script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

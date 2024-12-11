@@ -5,13 +5,83 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="adaef6bc-0ae7-4fc4-b201-275c9b190d2a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/static/js/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/layout/base_admin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/template_admin/chart-inventory.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/template_admin/chart-revenue.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/template_admin/table-inventory.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/template_admin/table-revenue.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/.browserslistrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/.idea/startbootstrap-sb-admin-2-gh-pages.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/.travis.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/PRO_UPGRADE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/blank.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/buttons.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/cards.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/charts.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/css/sb-admin-2.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/forgot-password.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/gulpfile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_buttons.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_cards.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_charts.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_dropdowns.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_error.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_footer.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_global.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_login.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_navs.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_utilities.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/_variables.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/navs/_global.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/navs/_sidebar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/navs/_topbar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/sb-admin-2.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/utilities/_animation.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/utilities/_background.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/utilities/_border.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/utilities/_display.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/utilities/_progress.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/utilities/_rotate.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/scss/utilities/_text.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/tables.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/utilities-animation.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/utilities-border.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/utilities-color.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/startbootstrap-sb-admin-2-gh-pages/utilities-other.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirement.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirement.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -25,16 +95,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.index.executor": "Run",
-    "Python.models.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/App-library",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python.index.executor&quot;: &quot;Run&quot;,
+    &quot;Python.models.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/library-mamagement&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\App-library\app\static" />
+      <recent name="D:\App-library\app\static\img" />
+      <recent name="D:\App-library\app\img" />
+      <recent name="D:\App-library\app\static\css" />
+      <recent name="D:\App-library\app\templates" />
+    </key>
+  </component>
   <component name="RunManager" selected="Python.index">
     <configuration name="index" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="App-library" />
@@ -104,5 +185,27 @@
       <updated>1733202539620</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app/index.py</url>
+          <line>49</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

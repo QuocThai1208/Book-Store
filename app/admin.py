@@ -8,12 +8,17 @@ from flask import request
 import utils
 
 
+class CategoryView(ModelView):
+    column_list = ['name', 'books']
+
+class AuthorView(ModelView):
+    column_list = ['name', 'books']
 
 
 class BookView(ModelView):
-    can_view_details = True
-    can_export = True
-    # column_list = ['id', 'Name', 'Author_id', 'Year_model', 'UnitPrice', 'Code', 'image', 'UnitsInStock', 'Category_id']
+    pass
+
+
 
 # Ghi đè trang chủ admin để lấy dữ liệu
 class MyAdminIndex(AdminIndexView):
@@ -26,21 +31,7 @@ class StatsView(BaseView):
 
     @expose('/')
     def index(self):
-        return self.render('admin/stats.html')
-
-    @expose('/revenue')
-    def revenue(self):
-        kw = request.args.get('kw')
-        from_date = request.args.get('from_date')
-        to_date = request.args.get('to_date')
-        author = request.args.get('author')
-        category = request.args.get('category')
-        return self.render('admin/stats/revenue.html',stats=utils.book_stats(kw=kw, from_date=from_date, to_date=to_date, author=author, category=category))
-
-    @expose('/inventory')
-    def inventory(self):
-        name = request.args.get('name')
-        return self.render('admin/stats/inventory.html', stats=utils.inventory_stats(name=name))
+        return self.render('template_admin/index.html')
 
 
 admin = Admin(app=app,
@@ -49,6 +40,7 @@ admin = Admin(app=app,
               index_view = MyAdminIndex()
               )
 
-admin.add_view(ModelView(Category, db.session))
+admin.add_view(CategoryView(Category, db.session))
+admin.add_view(AuthorView(Author, db.session))
 admin.add_view(BookView(Book, db.session))
 admin.add_view(StatsView(name='Stats'))

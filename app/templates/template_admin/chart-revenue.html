@@ -1,0 +1,195 @@
+{% extends 'layout/base_admin.html' %}
+
+
+{% block content %}
+<div class="container-fluid">
+
+    <select id="type-revenue" class="form-select mb-3">
+        <option value="revenue-book">Báo cáo doanh thu theo sản phẩm</option>
+        <option value="revenue-month">Báo cáo doanh thu theo tháng</option>
+    </select>
+    <input type="text" id="txtInputOption" class="form-control mb-3" style="display: none;"  onblur="hideInput()" placeholder="Nhập năm..." disabled/>
+    <button class="mb-3 btn btn-info" id="view-stats" value="chart-revenue">Xem thông kê</button>
+
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Biểu đồ báo cáo doanh thu</h1>
+
+    <!-- Content Row -->
+    <div class="">
+        <div class="">
+            <!-- Bar Chart -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Theo năm</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas id="myBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<!-- Page level custom scripts -->
+<!--<script src="{{ url_for('static', filename='js/demo/chart-bar-demo.js') }}"></script>-->
+
+
+<script>
+    // Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#858796';
+
+function number_format(number, decimals, dec_point, thousands_sep) {
+  // *     example: number_format(1234.56, 2, ',', ' ');
+  // *     return: '1 234,56'
+  number = (number + '').replace(',', '').replace(' ', '');
+  var n = !isFinite(+number) ? 0 : +number,
+    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+    s = '',
+    toFixedFix = function(n, prec) {
+      var k = Math.pow(10, prec);
+      return '' + Math.round(n * k) / k;
+    };
+  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  if (s[0].length > 3) {
+    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+  }
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+  return s.join(dec);
+}
+
+<!--  labels chứa tên tháng -->
+    <!--  info số doanh thu -->
+        let labels = [], info = []
+
+        let r, g ,b;
+        let type = 'bar'
+        let colors = []
+        let borderColors = []
+
+        {% if type_revenue == "revenue-book" %}
+            {% for s in stats %}
+                {% if s[3] %}
+                labels.push(' {{ s[0] }} ')
+                info.push( {{ s[3] }} )
+
+                r = Math.random()*255
+                g = Math.random()*255
+                b = Math.random()*255
+
+                colors.push(`rgba(${r}, ${g}, ${b}, 0.5)`)
+                borderColors.push(`rgba(${r}, ${g}, ${b}, 1)`)
+                {% endif %}
+            {% endfor %}
+        {% elif type_revenue == "revenue-month" %}
+            {% for s in stats %}
+                labels.push( {{ s[0] }} )
+                info.push( {{ s[1] }} )
+
+                r = Math.random()*255
+                g = Math.random()*255
+                b = Math.random()*255
+
+                colors.push(`rgba(${r}, ${g}, ${b}, 0.5)`)
+                borderColors.push(`rgba(${r}, ${g}, ${b}, 1)`)
+            {% endfor %}
+        {% endif %}
+// Bar Chart Example
+var ctx = document.getElementById("myBarChart");
+var myBarChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: "Doanh thu",
+      backgroundColor: borderColors,
+      borderColor: colors,
+      data: info,
+    }],
+  },
+  options: {
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        left: 10,
+        right: 25,
+        top: 25,
+        bottom: 0
+      }
+    },
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'month'
+        },
+        gridLines: {
+          display: false,
+          drawBorder: false
+        },
+        ticks: {
+          maxTicksLimit: 6
+        },
+        maxBarThickness: 25,
+      }],
+      yAxes: [{
+        ticks: {
+          maxTicksLimit: 5,
+          padding: 10,
+          // Include a dollar sign in the ticks
+          callback: function(value, index, values) {
+            return number_format(value) +' VND' ;
+          }
+        },
+        gridLines: {
+          color: "rgb(234, 236, 244)",
+          zeroLineColor: "rgb(234, 236, 244)",
+          drawBorder: false,
+          borderDash: [2],
+          zeroLineBorderDash: [2]
+        }
+      }],
+    },
+    legend: {
+      display: false
+    },
+    tooltips: {
+      titleMarginBottom: 10,
+      titleFontColor: '#6e707e',
+      titleFontSize: 14,
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#858796",
+      borderColor: '#dddfeb',
+      borderWidth: 1,
+      xPadding: 15,
+      yPadding: 15,
+      displayColors: false,
+      caretPadding: 10,
+      callbacks: {
+        label: function(tooltipItem, chart) {
+          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+          return datasetLabel + ': ' + number_format(tooltipItem.yLabel) + ' VND';
+        }
+      }
+    },
+  }
+});
+
+</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
+
+

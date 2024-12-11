@@ -50,11 +50,17 @@ class Category(db.Model):
     name = Column(String(50), nullable=False)
     books = relationship('Book', backref='Category', lazy=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Author(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(50), nullable=False)
     books = relationship('Book', backref='Author', lazy=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Book(db.Model):
@@ -132,31 +138,31 @@ if __name__ == '__main__':
         #     cate = Category(**c)
         #     db.session.add(cate)
         # db.session.commit()
-        authors = [{
-            'name' : 'Thích Nhất Hạnh'
-        }, {
-            'name' : 'Phạm Công Luận'
-        }, {
-            'name' : 'Tô Hoài'
-        }, {
-            'name' : 'Nguyễn Nhật Ánh'
-        }, {
-            'name' : 'Nguyễn Ngọc Tư'
-        }, {
-            'name' : 'Đỗ Hồng Ngọc'
-        }, {
-            'name' : 'Dương Thụy'
-        }, {
-            'name' : 'Anh Khang'
-        }, {
-            'name' : 'Keigo Higashino'
-        }, {
-            'name' : 'Dale Carnegie'
-        }]
-        for a in authors:
-            author = Author(**a)
-            db.session.add(author)
-        db.session.commit()
+        # authors = [{
+        #     'name' : 'Thích Nhất Hạnh'
+        # }, {
+        #     'name' : 'Phạm Công Luận'
+        # }, {
+        #     'name' : 'Tô Hoài'
+        # }, {
+        #     'name' : 'Nguyễn Nhật Ánh'
+        # }, {
+        #     'name' : 'Nguyễn Ngọc Tư'
+        # }, {
+        #     'name' : 'Đỗ Hồng Ngọc'
+        # }, {
+        #     'name' : 'Dương Thụy'
+        # }, {
+        #     'name' : 'Anh Khang'
+        # }, {
+        #     'name' : 'Keigo Higashino'
+        # }, {
+        #     'name' : 'Dale Carnegie'
+        # }]
+        # for a in authors:
+        #     author = Author(**a)
+        #     db.session.add(author)
+        # db.session.commit()
         books = [{
             'id': '0000000001',
             'name': 'Nghệ Thuật Thiết Lập Truyền Thông',
@@ -180,7 +186,7 @@ if __name__ == '__main__':
         }, {
             'id': '0000000003',
             'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergus',
-            'author_id': 11,
+            'author_id': 10,
             'year_model' : 2024,
             'unit_price' : 58000,
             'code' : '893521237025',
@@ -210,7 +216,7 @@ if __name__ == '__main__':
         }, {
             'id': '0000000006',
             'name': 'Ninja Rantaro - Tập 41',
-            'author_id': 12,
+            'author_id': 5,
             'year_model' : 2024,
             'unit_price' : 40000,
             'code' : '893535261927',
@@ -220,7 +226,7 @@ if __name__ == '__main__':
         }, {
             'id': '0000000007',
             'name': 'Vườn Thú Omagadoki - Tập 3',
-            'author_id': 12,
+            'author_id': 9,
             'year_model' : 2024,
             'unit_price' : 35000,
             'code' : '893535261829',
@@ -240,7 +246,7 @@ if __name__ == '__main__':
         }, {
             'id': '0000000009',
             'name': 'Chuyện Cơm Hội An - Thức Ăn Và Cộng Đồng Ở Một Đô Thị Việt Nam',
-            'author_id': '3',
+            'author_id': 3,
             'year_model' : 2024,
             'unit_price' : 255000,
             'code' : '893614420219',
