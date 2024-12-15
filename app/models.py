@@ -44,6 +44,9 @@ class PhoneNumber(db.Model):
     type = Column(String(50), nullable=False, default=0)
     users = Column(Integer, ForeignKey(User.id), nullable=False)
 
+    def __str__(self):
+        return self.phone_number
+
 
 class Category(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -52,6 +55,7 @@ class Category(db.Model):
 
     def __str__(self):
         return self.name
+
 
 
 class Author(db.Model):
@@ -64,18 +68,27 @@ class Author(db.Model):
 
 
 class Book(db.Model):
-    id = Column(String(10), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False)
     author_id = Column(Integer, ForeignKey(Author.id), nullable=False)
     year_model = Column(Integer)
     unit_price = Column(Float, nullable=False)
     code = Column(String(255), nullable=False)
-    image = Column(String(100), nullable=True,
-                   default="")
     units_in_stock = Column(Integer, nullable=False)
     category_id = Column(Integer, ForeignKey(Category.id), nullable=False)
     order_details = relationship('OrderDetail', backref='Book', lazy=True)
+    images = relationship('Image', backref='Book', lazy=True)
 
+    def __str__(self):
+        return str(self.name) + '\n'
+
+class Image(db.Model):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    books = Column(Integer, ForeignKey(Book.id), nullable=False)
+
+    def __str__(self):
+        return self.name
 
 class Payment(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -93,10 +106,13 @@ class Order(db.Model):
     employee_id = Column(Integer, ForeignKey(User.id), nullable=False)
     user = relationship("User", back_populates="Order", foreign_keys=[customer_id])  # Chỉ định cột user_id
 
+    def __str__(self):
+        return self.id
+
 
 class OrderDetail(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
-    book_id = Column(String(10), ForeignKey(Book.id), nullable=False)
+    book_id = Column(Integer, ForeignKey(Book.id), nullable=False)
     order_id = Column(String(10), ForeignKey(Order.id), nullable=False)
     quantity = Column(Integer, nullable=False, default=1)
     unit_price = Column(Integer, nullable=False, default=0)
@@ -164,93 +180,75 @@ if __name__ == '__main__':
         #     db.session.add(author)
         # db.session.commit()
         books = [{
-            'id': '0000000001',
             'name': 'Nghệ Thuật Thiết Lập Truyền Thông',
             'author_id': 1,
             'year_model' : 2024,
             'unit_price' : 105000,
             'code' : '893200013511',
-            'image' : '',
             'units_in_stock' : 10,
             'category_id' : 7
         }, {
-            'id': '0000000002',
             'name': 'Giới Bản Khất Sĩ Tân Tu - Nghi Thức Tụng Giới Nữ Khất Sĩ (Tái bản năm 2024)',
             'author_id': 1,
             'year_model' : 2024,
             'unit_price' : 125000,
             'code' : '893200013504',
-            'image' : '',
             'units_in_stock' : 10,
             'category_id' : 3
         }, {
-            'id': '0000000003',
             'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergus',
             'author_id': 10,
             'year_model' : 2024,
             'unit_price' : 58000,
             'code' : '893521237025',
-            'image' : '',
             'units_in_stock' : 10,
             'category_id' : 13
         }, {
-            'id': '0000000004',
             'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergusg',
             'author_id': 1,
             'year_model' : 2024,
             'unit_price' : 105000,
             'code' : '893200013511',
-            'image' : '',
             'units_in_stock' : 10,
             'category_id' : 7
         }, {
-            'id': '0000000005',
             'name': 'Kĩ Năng Ứng Xử Cho Bé - Ở Trường Mẫu Giáo',
             'author_id': 10,
             'year_model' : 2024,
             'unit_price' : 80000,
             'code' : '893521031038',
-            'image' : '',
             'units_in_stock' : 10,
             'category_id' : 13
         }, {
-            'id': '0000000006',
             'name': 'Ninja Rantaro - Tập 41',
             'author_id': 5,
             'year_model' : 2024,
             'unit_price' : 40000,
             'code' : '893535261927',
-            'image' : '',
             'units_in_stock' : 10,
             'category_id' : 11
         }, {
-            'id': '0000000007',
             'name': 'Vườn Thú Omagadoki - Tập 3',
             'author_id': 9,
             'year_model' : 2024,
             'unit_price' : 35000,
             'code' : '893535261829',
-            'image' : '',
             'units_in_stock' : 10,
             'category_id' : 11
         }, {
-            'id': '0000000008',
             'name': 'Làng Làng Phố Phố Hà Nội',
             'author_id': 5,
             'year_model' : 2024,
             'unit_price' : 180000,
             'code' : '893523524253',
-            'image' : '',
             'units_in_stock' : 10,
             'category_id' : 14
         }, {
-            'id': '0000000009',
             'name': 'Chuyện Cơm Hội An - Thức Ăn Và Cộng Đồng Ở Một Đô Thị Việt Nam',
             'author_id': 3,
             'year_model' : 2024,
             'unit_price' : 255000,
             'code' : '893614420219',
-            'image' : '',
             'units_in_stock' : 10,
             'category_id' : 2
         }

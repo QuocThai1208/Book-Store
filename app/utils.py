@@ -20,15 +20,25 @@ def inventory_stats(name=None):
 
 
 
-def revenue(type_revenue, year):
-    if type_revenue == 'revenue-month':
+def revenue(type_revenue, month, year):
+    if type_revenue == 'revenue-day':
+        return db.session.query(extract('day', Order.order_date),
+                                func.sum(OrderDetail.quantity * OrderDetail.unit_price)
+                                ).join(OrderDetail, OrderDetail.order_id.__eq__(Order.id), isouter=True
+                                ).filter(extract('month', Order.order_date) == month,
+                                         extract('year', Order.order_date) == year
+                                ).group_by(extract('day', Order.order_date)
+                                ).order_by(extract('day', Order.order_date)).all()
+
+    elif type_revenue == 'revenue-month':
         return db.session.query(extract('month', Order.order_date),
                                 func.sum(OrderDetail.quantity * OrderDetail.unit_price)
                                 ).join(OrderDetail, OrderDetail.order_id.__eq__(Order.id), isouter=True
-                                       ).filter(extract('year', Order.order_date) == year
-                                                ).group_by(extract('month', Order.order_date)
-                                                           ).order_by(extract('month', Order.order_date)).all()
-    elif type_revenue == 'revenue-book':
+                                ).filter(extract('year', Order.order_date) == year
+                                ).group_by(extract('month', Order.order_date)
+                                ).order_by(extract('month', Order.order_date)).all()
+
+def revenue_book(from_date=None, to_date=None):
         b = db.session.query(
             Book.id,
             Book.name,
@@ -43,7 +53,13 @@ def revenue(type_revenue, year):
         ).join(
             Category, Category.id.__eq__(Book.category_id)
         ).group_by(Book.id, Book.name, Category.name)
+
+        if from_date:
+            b = b.filter(Order.order_date.__ge__(from_date))
+        if to_date:
+            b = b.filter(Order.order_date.__le__(to_date))
         return b.all()
+
 
 
 #Tính tổng doanh thu theo tháng

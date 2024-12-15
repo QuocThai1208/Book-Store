@@ -1,14 +1,16 @@
 {% extends 'admin/base.html' %}
 
 {% block body %}
-<div class="row">
-    <div class="col-md-6 col-xs-12">
-        <table class="table">
+<div class="row mt-4">
+    <div class="col-md-8 col-xs-12">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
             <tr>
                 <th>Mã loại sách</th>
                 <th>Tên loại sách</th>
-                <th>Số lượng sản phẩm</th>
+                <th>Số lượng</th>
             </tr>
+            </thead>
             {% for s in stats %}
             <tr>
                 <td> {{ s[0] }}</td>
@@ -18,57 +20,94 @@
             {% endfor %}
         </table>
     </div>
-    <div class="col-md-6 col-xs-12">
-        <canvas id="MyCategoryChart"></canvas>
+    <div class="col-md-4 col-xs-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Category</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class=" pt-4 pb-2">
+                    <canvas id="MyCategoryChart"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    {% for s in stats %}
+                    <span class="mr-2">
+                        <i class="fas fa-circle "></i> {{ s[1] }}
+                    </span>
+                    {% endfor %}
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-<!--  labels chứa name category -->
-<!--  info số lượng -->
-    let labels = [], info = []
-
-    let r, g ,b;
-    let colors = []
-    let borderColors = []
 
 
-    {% for s in stats %}
-        labels.push(' {{ s[1] }} ')
-        info.push( {{ s[2] }} )
+    <!--  labels chứa name category -->
+    <!--  info số lượng -->
+        let labels = [], info = []
 
-        r = Math.random()*255
-        g = Math.random()*255
-        b = Math.random()*255
+        let r, g ,b;
+        let colors = []
 
-        colors.push(`rgba(${r}, ${g}, ${b}, 0.5)`)
-        borderColors.push(`rgba(${r}, ${g}, ${b}, 1)`)
 
-    {% endfor %}
+        {% for s in stats %}
+            labels.push(' {{ s[1] }} ')
+            info.push( {{ s[2] }} )
 
-    const ctx = document.getElementById('MyCategoryChart');
+            r = Math.random()*255
+            g = Math.random()*255
+            b = Math.random()*255
 
-    const myChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-          labels: labels,
-          datasets: [{
+            colors.push(`rgba(${r}, ${g}, ${b}, 1)`)
+
+
+        {% endfor %}
+
+        const icons = document.querySelectorAll('.fas.fa-circle');
+
+        icons.forEach((icon, index) => {
+            icon.style.color = colors[index];
+        });
+
+        const ctx = document.getElementById('MyCategoryChart');
+
+        const myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
               label: 'Thống kê số lượng sách theo loại',
               data: info,
               backgroundColor: colors,
-              borderColor: borderColors,
-              borderWidth: 1
-          }]
-      },
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: true
-              }
-          }
-      }
-  });
+            }],
+          },
+          options: {
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                }
+            },
+            cutout: '80%',
+        }
+      });
 </script>
 {% endblock%}

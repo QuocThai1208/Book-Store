@@ -5,21 +5,26 @@ from flask import session
 from app import app, db
 from flask_admin import Admin, AdminIndexView, expose, BaseView
 from flask_admin.contrib.sqla import ModelView  # ModelView dung de tao view tren model
-from app.models import Category, Book, Author
+from app.models import Category, Book, Author, User
 from flask import request
 import utils
 
 
 class CategoryView(ModelView):
+    column_sortable_list = []
     column_list = ['name', 'books']
 
+
 class AuthorView(ModelView):
+    column_sortable_list = []
     column_list = ['name', 'books']
 
 
 class BookView(ModelView):
-    pass
+    column_sortable_list = []
 
+class UserView(ModelView):
+    column_sortable_list = []
 
 
 # Ghi đè trang chủ admin để lấy dữ liệu
@@ -38,4 +43,5 @@ admin = Admin(app=app,
 admin.add_view(CategoryView(Category, db.session))
 admin.add_view(AuthorView(Author, db.session))
 admin.add_view(BookView(Book, db.session))
+admin.add_view(UserView(User, db.session))
 

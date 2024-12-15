@@ -1,5 +1,6 @@
+from calendar import month
 from datetime import datetime
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from app import app
 from app.utils import revenue
 
@@ -12,8 +13,10 @@ def index():
 def admin_view():
     month = request.args.get('month', datetime.now().month)
     year = request.args.get('year', datetime.now().year)
-    return render_template('template_admin/index.html', month_revenue_total=utils.month_revenue_total(month=month)
-                       , year_revenue_total=utils.year_revenue_total(year=year))
+    return render_template('template_admin/index.html',
+                           month_revenue_total=utils.month_revenue_total(month=month),
+                           year_revenue_total=utils.year_revenue_total(year=year),
+                           stats=utils.revenue(type_revenue='revenue-day', month=month, year=year))
 
 @app.route("/admin_stats/login")
 def login():
@@ -32,9 +35,17 @@ def forgot_password():
 
 @app.route("/admin_stats/table-revenue")
 def table_revenue():
+    month = request.args.get('month', datetime.now().month)
     year = request.args.get('year', datetime.now().year)
     type_revenue = request.args.get('type_revenue')
-    return render_template('template_admin/table-revenue.html', type_revenue=type_revenue, stats=utils.revenue(type_revenue=type_revenue, year=year))
+
+    from_date = request.args.get('from_date')
+    to_date = request.args.get('to_date')
+
+    return render_template('template_admin/table-revenue.html',
+                           type_revenue=type_revenue,
+                           stats=utils.revenue(type_revenue=type_revenue, month=month, year=year),
+                           stats_book=utils.revenue_book(from_date=from_date, to_date=to_date))
 
 
 @app.route("/admin_stats/table-inventory")
@@ -48,16 +59,22 @@ def chart_inventory():
 
 @app.route("/admin_stats/chart-revenue")
 def chart_revenue():
+    month = request.args.get('month', datetime.now().month)
     year = request.args.get('year', datetime.now().year)
     type_revenue = request.args.get('type_revenue')
-    return render_template('template_admin/chart-revenue.html', type_revenue=type_revenue, stats=utils.revenue(type_revenue=type_revenue, year=year))
+
+    from_date = request.args.get('from_date')
+    to_date = request.args.get('to_date')
+
+    return render_template('template_admin/chart-revenue.html',
+                           type_revenue=type_revenue,
+                           stats=utils.revenue(type_revenue=type_revenue, month=month, year=year),
+                           stats_book=utils.revenue_book(from_date=from_date, to_date=to_date))
 
 
 @app.route("/admin_stats/book")
 def book_manager():
     return render_template('template_admin/book.html')
-
-
 
 
 

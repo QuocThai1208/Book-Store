@@ -14,11 +14,30 @@
 {% block content %}
 <div class="container-fluid">
 
-    <select id="type-revenue" class="form-select mb-3">
+    <select id="type-revenue" class="form-select mb-3" >
         <option value="revenue-book">Báo cáo doanh thu theo sản phẩm</option>
         <option value="revenue-month">Báo cáo doanh thu theo tháng</option>
+        <option value="revenue-day">Báo cáo doanh thu theo ngày</option>
     </select>
-    <input type="text" id="txtInputOption" class="form-control mb-3" style="display: none;"  onblur="hideInput()" placeholder="Nhập năm..." disabled/>
+    <input type="text" id="inputYear" class="form-control mb-3" style="display: none;"  onblur="hideInput()" placeholder="Nhập năm..." disabled/>
+    <input type="text" id="inputMonth" class="form-control mb-3" style="display: none;"  onblur="hideInput()" placeholder="Nhập tháng..." disabled/>
+    <div class="row divDate">
+        <div class="col-md-1 col-xs-12 d-flex align-items-center">
+            <label>Từ ngày : </label>
+        </div>
+        <div class="col-md-11 col-xs-12">
+            <input type="date" id="inputFromDate" class="form-control mb-3"  placeholder="Từ ngày" />
+        </div>
+    </div>
+    <div class="row divDate">
+        <div class="col-md-1 col-xs-12 d-flex align-items-center">
+            <label>Đến ngày : </label>
+        </div>
+        <div class="col-md-11 col-xs-12">
+            <input type="date" id="inputToDate" class="form-control mb-3"    placeholder="Đến ngày..." />
+        </div>
+    </div>
+
     <button class="mb-3 btn btn-info" id="view-stats" value="table-revenue">Xem thông kê</button>
 
     <div class="card shadow mb-4">
@@ -46,7 +65,7 @@
                     </tr>
                     </tfoot>
                     <tbody>
-                    {% for s in stats %}
+                    {% for s in stats_book %}
                     <tr>
                         <td> {{ s[0] }}</td>
                         <td> {{ s[1] }}</td>
@@ -71,6 +90,33 @@
                     <tfoot>
                     <tr>
                         <th>Tháng</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for s in stats %}
+                    <tr>
+                        <td> {{ s[0] }}</td>
+                        <td>
+                            {% if s[1] %}
+                            {{ "{:,.0f}".format(s[1]) }} VND
+                            {% else %}
+                            0 VND
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                    {% elif type_revenue == "revenue-day" %}
+                    <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Ngày</th>
                         <th>Doanh thu</th>
                     </tr>
                     </tfoot>

@@ -7,13 +7,31 @@
 {% block content %}
 <div class="container-fluid">
 
-    <select id="type-revenue" class="form-select mb-3">
+    <select id="type-revenue" class="form-select mb-3" >
         <option value="revenue-book">Báo cáo doanh thu theo sản phẩm</option>
         <option value="revenue-month">Báo cáo doanh thu theo tháng</option>
+        <option value="revenue-day">Báo cáo doanh thu theo ngày</option>
     </select>
-    <input type="text" id="txtInputOption" class="form-control mb-3" style="display: none;"  onblur="hideInput()" placeholder="Nhập năm..." disabled/>
-    <button class="mb-3 btn btn-info" id="view-stats" value="chart-revenue">Xem thông kê</button>
+    <input type="text" id="inputYear" class="form-control mb-3" style="display: none;"  onblur="hideInput()" placeholder="Nhập năm..." disabled/>
+    <input type="text" id="inputMonth" class="form-control mb-3" style="display: none;"  onblur="hideInput()" placeholder="Nhập tháng..." disabled/>
+    <div class="row divDate">
+        <div class="col-md-1 col-xs-12 d-flex align-items-center">
+            <label>Từ ngày : </label>
+        </div>
+        <div class="col-md-11 col-xs-12">
+            <input type="date" id="inputFromDate" class="form-control mb-3"  placeholder="Từ ngày" />
+        </div>
+    </div>
+    <div class="row divDate">
+        <div class="col-md-1 col-xs-12 d-flex align-items-center">
+            <label>Đến ngày : </label>
+        </div>
+        <div class="col-md-11 col-xs-12">
+            <input type="date" id="inputToDate" class="form-control mb-3"    placeholder="Đến ngày..." />
+        </div>
+    </div>
 
+    <button class="mb-3 btn btn-info" id="view-stats" value="chart-revenue">Xem thông kê</button>
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Biểu đồ báo cáo doanh thu</h1>
@@ -85,7 +103,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
         let borderColors = []
 
         {% if type_revenue == "revenue-book" %}
-            {% for s in stats %}
+            {% for s in stats_book %}
                 {% if s[3] %}
                 labels.push(' {{ s[0] }} ')
                 info.push( {{ s[3] }} )
@@ -110,7 +128,17 @@ function number_format(number, decimals, dec_point, thousands_sep) {
                 colors.push(`rgba(${r}, ${g}, ${b}, 0.5)`)
                 borderColors.push(`rgba(${r}, ${g}, ${b}, 1)`)
             {% endfor %}
+        {% elif type_revenue == "revenue-day" %}
+            {% for s in stats %}
+                labels.push( {{ s[0] }} )
+                {% if s[1] %}
+                info.push( {{ s[1] }} )
+                {% else %}
+                info.push(0)
+                {% endif %}
+            {% endfor %}
         {% endif %}
+
 // Bar Chart Example
 var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
