@@ -32,9 +32,9 @@ class User(db.Model, UserMixin):
     avatar = Column(String(255),
                     default="")
     user_role = Column(Enum(UserRole), default=UserRole.CUSTOMER)
-    birth_day = Column(DateTime, nullable=False)
-    sex = Column(String(50), nullable=False)
-    address = Column(String(255), nullable=False)
+    birth_day = Column(DateTime)
+    sex = Column(String(50))
+    address = Column(String(255))
     phone_number = relationship('PhoneNumber', backref='User', lazy=True)
     Order = relationship('Order', backref='User', lazy=True, foreign_keys='Order.customer_id')
 
@@ -121,6 +121,10 @@ class OrderDetail(db.Model):
 if __name__ == '__main__':
     with app.app_context():
         # db.create_all()
+        u = User(name='mq1',username='mq1',password=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),birth_day='2004-07-05',sex='Nam',address='123',
+                 user_role=UserRole.ADMIN)
+        db.session.add(u)
+        db.session.commit()
         # categorys = [{
         #     'name': 'Văn Hóa'
         # }, {
@@ -179,81 +183,81 @@ if __name__ == '__main__':
         #     author = Author(**a)
         #     db.session.add(author)
         # db.session.commit()
-        books = [{
-            'name': 'Nghệ Thuật Thiết Lập Truyền Thông',
-            'author_id': 1,
-            'year_model' : 2024,
-            'unit_price' : 105000,
-            'code' : '893200013511',
-            'units_in_stock' : 10,
-            'category_id' : 7
-        }, {
-            'name': 'Giới Bản Khất Sĩ Tân Tu - Nghi Thức Tụng Giới Nữ Khất Sĩ (Tái bản năm 2024)',
-            'author_id': 1,
-            'year_model' : 2024,
-            'unit_price' : 125000,
-            'code' : '893200013504',
-            'units_in_stock' : 10,
-            'category_id' : 3
-        }, {
-            'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergus',
-            'author_id': 10,
-            'year_model' : 2024,
-            'unit_price' : 58000,
-            'code' : '893521237025',
-            'units_in_stock' : 10,
-            'category_id' : 13
-        }, {
-            'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergusg',
-            'author_id': 1,
-            'year_model' : 2024,
-            'unit_price' : 105000,
-            'code' : '893200013511',
-            'units_in_stock' : 10,
-            'category_id' : 7
-        }, {
-            'name': 'Kĩ Năng Ứng Xử Cho Bé - Ở Trường Mẫu Giáo',
-            'author_id': 10,
-            'year_model' : 2024,
-            'unit_price' : 80000,
-            'code' : '893521031038',
-            'units_in_stock' : 10,
-            'category_id' : 13
-        }, {
-            'name': 'Ninja Rantaro - Tập 41',
-            'author_id': 5,
-            'year_model' : 2024,
-            'unit_price' : 40000,
-            'code' : '893535261927',
-            'units_in_stock' : 10,
-            'category_id' : 11
-        }, {
-            'name': 'Vườn Thú Omagadoki - Tập 3',
-            'author_id': 9,
-            'year_model' : 2024,
-            'unit_price' : 35000,
-            'code' : '893535261829',
-            'units_in_stock' : 10,
-            'category_id' : 11
-        }, {
-            'name': 'Làng Làng Phố Phố Hà Nội',
-            'author_id': 5,
-            'year_model' : 2024,
-            'unit_price' : 180000,
-            'code' : '893523524253',
-            'units_in_stock' : 10,
-            'category_id' : 14
-        }, {
-            'name': 'Chuyện Cơm Hội An - Thức Ăn Và Cộng Đồng Ở Một Đô Thị Việt Nam',
-            'author_id': 3,
-            'year_model' : 2024,
-            'unit_price' : 255000,
-            'code' : '893614420219',
-            'units_in_stock' : 10,
-            'category_id' : 2
-        }
-        ]
-        for b in books:
-            book = Book(**b)
-            db.session.add(book)
-        db.session.commit()
+        # books = [{
+        #     'name': 'Nghệ Thuật Thiết Lập Truyền Thông',
+        #     'author_id': 1,
+        #     'year_model' : 2024,
+        #     'unit_price' : 105000,
+        #     'code' : '893200013511',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 7
+        # }, {
+        #     'name': 'Giới Bản Khất Sĩ Tân Tu - Nghi Thức Tụng Giới Nữ Khất Sĩ (Tái bản năm 2024)',
+        #     'author_id': 1,
+        #     'year_model' : 2024,
+        #     'unit_price' : 125000,
+        #     'code' : '893200013504',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 3
+        # }, {
+        #     'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergus',
+        #     'author_id': 10,
+        #     'year_model' : 2024,
+        #     'unit_price' : 58000,
+        #     'code' : '893521237025',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 13
+        # }, {
+        #     'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergusg',
+        #     'author_id': 1,
+        #     'year_model' : 2024,
+        #     'unit_price' : 105000,
+        #     'code' : '893200013511',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 7
+        # }, {
+        #     'name': 'Kĩ Năng Ứng Xử Cho Bé - Ở Trường Mẫu Giáo',
+        #     'author_id': 10,
+        #     'year_model' : 2024,
+        #     'unit_price' : 80000,
+        #     'code' : '893521031038',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 13
+        # }, {
+        #     'name': 'Ninja Rantaro - Tập 41',
+        #     'author_id': 5,
+        #     'year_model' : 2024,
+        #     'unit_price' : 40000,
+        #     'code' : '893535261927',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 11
+        # }, {
+        #     'name': 'Vườn Thú Omagadoki - Tập 3',
+        #     'author_id': 9,
+        #     'year_model' : 2024,
+        #     'unit_price' : 35000,
+        #     'code' : '893535261829',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 11
+        # }, {
+        #     'name': 'Làng Làng Phố Phố Hà Nội',
+        #     'author_id': 5,
+        #     'year_model' : 2024,
+        #     'unit_price' : 180000,
+        #     'code' : '893523524253',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 14
+        # }, {
+        #     'name': 'Chuyện Cơm Hội An - Thức Ăn Và Cộng Đồng Ở Một Đô Thị Việt Nam',
+        #     'author_id': 3,
+        #     'year_model' : 2024,
+        #     'unit_price' : 255000,
+        #     'code' : '893614420219',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 2
+        # }
+        # ]
+        # for b in books:
+        #     book = Book(**b)
+        #     db.session.add(book)
+        # db.session.commit()

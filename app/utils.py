@@ -1,7 +1,8 @@
 from app import db
 from sqlalchemy import func
-from app.models import Category, Book, Author, OrderDetail, Order
+from app.models import Category, Book, Author, OrderDetail, Order, User
 from sqlalchemy.sql import extract
+import hashlib
 
 
 # thống kê số lượng của từng loại sách
@@ -80,5 +81,21 @@ def year_revenue_total(year):
                             ).group_by(extract('year', Order.order_date)
                             ).all()
 
+def add_user(name,username,password, **kwargs):
+    user= User(name=name,
+               username=username,
+               password=str(hashlib.md5(password.strip().encode('utf-8')).hexdigest()),
+               avatar= kwargs.get('avatar')
+               )
+    db.session.add(user)
+    db.session.commit()
+
+def auth_user(username, password):
+    password = hashlib.md5(password.strip().encode('utf-8')).hexdigest()
+    return User.query.filter(User.username.__eq__(username.strip()),
+                             User.password.__eq__(password)).first()
+
+def get_user_by_id(id):
+    return User.query.get(id)
 
 
