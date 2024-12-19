@@ -33,6 +33,36 @@
                 Thêm vào hóa đơn
             </button>
         </div>
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">STT</th>
+      <th scope="col">Ten Sách</th>
+      <th scope="col">Đơn giá</th>
+      <th scope="col">Số lượng</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Hello</td>
+      <td>1000000</td>
+      <td>
+        <div class="form-group" >
+        <input type="number" onblur="" min="1" value="" class="form-control"/>
+        </div>
+      </td>
+      <td>
+        <input type="button" value="Xoa" class="btn btn-danger">
+      </td>
+    </tr>
+  </tbody>
+</table>
+        <div class="alert alert-info">
+    <h5>Tong san pham : <span class="cart-counter"></span></h5>
+    <h5>Tong tien :<span id="total-amount" > {{"{:,.1f}".format(100000000)}}VND</span></h5>
+</div>
 
 
     </div>
@@ -55,10 +85,8 @@
                         <p><strong>Giá bán:</strong> ${book.unit_price} VND</p>
                         <p><strong>Số lượng trong kho:</strong> ${book.units_in_stock}</p>
                         <p><strong>Năm xuất bản:</strong> ${book.year_model}</p>
-                        <p><strong>Nhập số lượng</strong></p>
                     `;
                     addToCartBtnContainer.style.display = 'block';
-                    sellBtnQuantity.style.display = 'block';
                 } else {
                     const error = await response.json();
                     resultDiv.innerHTML = `<p style="color: red;">${error.error}</p>`;

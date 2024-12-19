@@ -97,6 +97,20 @@ def add_user(name,username,password,user_role,birth_day,address,sex, **kwargs):
     db.session.add(user)
     db.session.commit()
 
+def add_customer(name,username,password,user_role,birth_day,address,sex, **kwargs):
+    user= User(name=name,
+               username=username,
+               password=str(hashlib.md5(password.strip().encode('utf-8')).hexdigest()),
+               avatar= kwargs.get('avatar'),
+               user_role= UserRole.CUSTOMER,
+               birth_day=birth_day,
+               address=address,
+               sex=sex
+
+               )
+    db.session.add(user)
+    db.session.commit()
+
 def auth_user(username, password,role = UserRole.CUSTOMER):
     password = hashlib.md5(password.strip().encode('utf-8')).hexdigest()
     return User.query.filter(User.username.__eq__(username.strip()),
@@ -108,6 +122,7 @@ def auth_employee(username, password,role = UserRole.EMPLOYEE):
     return User.query.filter(User.username.__eq__(username.strip()),
                              User.password.__eq__(password),
                              User.user_role.__eq__(role)).first()
+
 def get_user_by_id(id):
     return User.query.get(id)
 

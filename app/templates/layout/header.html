@@ -21,12 +21,22 @@
               {% endfor %}
           </ul>
         </li>
+        {%if current_user.is_authenticated%}
         <li class="nav-item">
-          <a class="nav-link text-success" aria-disabled="true">Đăng nhập</a>
+          <a class="nav-link text-success" aria-disabled="true" href="/customer/logout">Đăng xuất</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link " aria-disabled="true" >Xin chào {{current_user.name}}</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link text-success" aria-disabled="true" href="/customer/login">Đăng nhập</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-danger" aria-disabled="true">Đăng ký</a>
+          <a class="nav-link text-danger" aria-disabled="true" href="/customer/register">Đăng ký</a>
         </li>
+
+        {% endif %}
       </ul>
       <form class="d-flex mr-2" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="kw" value="{{ kw if kw else '' }}">

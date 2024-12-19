@@ -130,7 +130,7 @@ class OrderDetail(db.Model):
 if __name__ == '__main__':
     with app.app_context():
         # db.create_all()
-        # u = User(name='mq1',username='mq1',password=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),birth_day='2004-07-05',sex='Nam',address='123',
+        # u = User(name='Minh Quân',username='mq',password=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),birth_day='2004-07-05',sex='Nam',address='123',
         #          user_role=UserRole.ADMIN)
         # db.session.add(u)
         # db.session.commit()

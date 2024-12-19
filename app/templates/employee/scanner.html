@@ -1,27 +1,31 @@
 {% extends 'layout/base_employee.html' %}
 {% block title %}
 <title>MAY QUET MA SACH</title>
-<script>
-        async function startCamera() {
-            await fetch('/start_camera', { method: 'POST' });
-            const videoFeed = document.getElementById('video-feed');
-            videoFeed.src = "/video_feed";
-        }
-
-        async function stopCamera() {
-            await fetch('/stop_camera', { method: 'POST' });
-            const videoFeed = document.getElementById('video-feed');
-            videoFeed.src = "";
-        }
-    </script>
 {% endblock %}
 
 {% block content %}
 <h1>QUÉT MÃ SÁCH</h1>
-    <button onclick="startCamera()">Mở camera</button>
-    <button onclick="stopCamera()"> Tắt camera</button>
+<div style="width:300px; height:300px">
+    <div id="reader" style=" width:300px; height:300px; "></div>
+</div>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script>
+    console.log("asd")
+    function onScanSuccess(decodedText, decodedResult) {
+      // handle the scanned code as you like, for example:
+      console.log(`Code matched = ${decodedText}`, decodedResult);
+    }
 
-    <div>
-        <img id="video-feed" style="width: 320px; height:200px; max-width: 800px; border: 2px solid black;" alt="Camera Feed">
-    </div>
-{% endblock%}
+    function onScanFailure(error) {
+      // handle scan failure, usually better to ignore and keep scanning.
+      // for example:
+      console.warn(`Code scan error = ${error}`);
+    }
+
+    let html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader",
+      { fps: 10, qrbox: {width: 200, height: 200} },
+      /* verbose= */ false);
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+</script>
+{% endblock %}
