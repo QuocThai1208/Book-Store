@@ -1,0 +1,29 @@
+.product-container {
+    height: 680px;
+}
+
+.book-info {
+    width: 50%;
+}
+
+.product-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box {
+    display: flex; /* Sử dụng Flexbox */
+    flex-direction: column; /* Sắp xếp các phần tử theo cột */
+    justify-content: center; /* Căn giữa theo chiều dọc */
+    align-items: center; /* Căn giữa theo chiều ngang */
+    height: 100%;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5); /* Đổ bóng */
+    border-radius: 10px; /* Bo góc (nếu cần) */
+    margin: 50px auto;
+    padding: 1%;
+}
+
+.act-btn {
+    margin: 0 5px; /* Khoảng cách giữa các nút */
+}

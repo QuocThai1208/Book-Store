@@ -1,0 +1,65 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+{% if books %}
+<section style="background-color: #eee;">
+    <div class="container py-5">
+        <div class="row">
+            {% for b in books %}
+            <div class="col-md-12 col-lg-4 mb-4 mb-lg-0 mt-2">
+                <div class="card">
+                    <div class="d-flex justify-content-between p-3">
+                        <p class="lead mb-0">Today's Combo Offer</p>
+                        <div
+                                class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
+                                style="width: 35px; height: 35px;">
+                            <p class="text-white mb-0 small">x4</p>
+                        </div>
+                    </div>
+                    <img src="{{ b.get_main_img() }}"
+                         class="card-img-top" alt="Laptop"/>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mt-2 mb-2">
+                            <button class="btn btn-danger small"><a href="?category_id={{ b.category_id }}"
+                                                                    class="cate-name text-decoration-none">{{
+                                b.get_cate_name() }}</a></button>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <h5 class="mb-0n text-truncate-2-lines">{{ b.name }}</h5>
+                            <h5 class="text-dark mb-0">{{ b.unit_price }}</h5>
+                        </div>
+                        <div class="text-end">
+                            <button class="btn btn-info text-decoration-none"><a class="text-decoration-none text-white"
+                                                                                 href="{{ url_for('book_detail', book_id=b.id) }}">Xem
+                                chi tiết</a></button>
+                            <button class="btn btn-danger" onclick="addToCard({{ b.id }},'{{ b.name }}',{{ b.unit_price }}, '{{ b.get_main_img() }}')">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <nav aria-label="...">
+                <ul class="mt-2 pagination d-flex justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="/books?{% if category_id %}&category_id={{ category_id }}&{% endif %}{% if kw %}&kw={{ kw }}&{% endif %}{% if current_page > 1 %}page={{ current_page - 1 }}{% else %}page={{ current_page }}{% endif %}">Previous</a>
+                    </li>
+                    {% for i in range(1, pages + 1) %}
+                    <li class="page-item"><a class="page-link"
+                                             href="/books?{% if category_id %}&category_id={{ category_id }}&{% endif %}{% if kw %}&kw={{ kw }}&{% endif %}page={{ i }} ">{{
+                        i }}</a></li>
+                    {% endfor %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="/books?{% if category_id %}&category_id={{ category_id }}&{% endif %}{% if kw %}&kw={{ kw }}&{% endif %}{% if current_page < pages %}page={{ current_page + 1 }}{% else %}page={{ current_page }}{% endif %}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+{% else %}
+<div class="alert alert-info mt-1">KHÔNG có sản phẩm nào!</div>
+{% endif %}
+{% endblock%}

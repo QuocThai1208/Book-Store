@@ -1,5 +1,7 @@
-from app import db
+from app import app, db
 from sqlalchemy import func
+from app.models import Category, Book, Author, OrderDetail, Order, Image
+from app.models import Category, Book, Author, OrderDetail, Order, User
 from app.models import Category, Book, Author, OrderDetail, Order, User , UserRole
 from sqlalchemy.sql import extract
 import hashlib
@@ -109,4 +111,53 @@ def auth_employee(username, password,role = UserRole.EMPLOYEE):
 def get_user_by_id(id):
     return User.query.get(id)
 
+def load_categories():
+    return Category.query.all()
 
+
+def load_books(cate_id=None, kw=None, page=1):
+    query = Book.query
+
+    if kw:
+        query = query.filter(Book.name.contains(kw))
+
+    if cate_id:
+        query = query.filter(Book.category_id == cate_id)
+
+    page_size = app.config['PAGE_SIZE']
+    start = (page - 1) * page_size
+    query = query.slice(start, start + page_size)
+
+    return query.all()
+
+def count_books(cate_id=None, kw=None):
+    query = Book.query
+
+    if kw:
+        query = query.filter(Book.name.contains(kw))
+
+    if cate_id:
+        query = query.filter(Book.category_id == cate_id)
+
+    return query.count()
+
+def get_book_by_id(book_id):
+    return Book.query.get(book_id)
+
+def load_img_book(book_id):
+    imgs = Image.query.filter(Image.books == book_id)
+
+    return imgs.all()
+
+def stats_cart(cart):
+    total_amount, total_quantity = 0, 0
+
+    if cart:
+        for c in cart.values():
+            total_quantity += c['quantity']
+            total_amount += c['quantity'] * c['price']
+
+    return {
+        'total_amount': total_amount,
+        'total_quantity': total_quantity
+    }

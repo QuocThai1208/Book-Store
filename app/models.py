@@ -82,9 +82,18 @@ class Book(db.Model):
     def __str__(self):
         return str(self.name) + '\n'
 
+    def get_cate_name(self):
+        cate = Category.query.get(self.category_id)
+        return cate.name
+
+    def get_main_img(self):
+        img = Image.query.filter(Image.books == self.id and Image.is_main_image == True).first()
+        return img.name
+
 class Image(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), nullable=False)
+    is_main_image = Column(Boolean, default=False)
     books = Column(Integer, ForeignKey(Book.id), nullable=False)
 
     def __str__(self):
@@ -120,11 +129,11 @@ class OrderDetail(db.Model):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
-        u = User(name='kh2',username='kh2',password=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),birth_day='2004-07-05',sex='Nam',address='123',
-                 user_role=UserRole.CUSTOMER)
-        db.session.add(u)
-        db.session.commit()
+        # db.create_all()
+        # u = User(name='mq1',username='mq1',password=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),birth_day='2004-07-05',sex='Nam',address='123',
+        #          user_role=UserRole.ADMIN)
+        # db.session.add(u)
+        # db.session.commit()
         # categorys = [{
         #     'name': 'Văn Hóa'
         # }, {
@@ -255,9 +264,97 @@ if __name__ == '__main__':
         #     'code' : '893614420219',
         #     'units_in_stock' : 10,
         #     'category_id' : 2
-        # }
-        # ]
+        # }, {
+        #     'name': 'Tiếng Việt Cắc Cớ Cũng Cứng Cựa',
+        #     'author_id': 7,
+        #     'year_model' : 2024,
+        #     'unit_price' : 160000,
+        #     'code' : '893614420219',
+        #     'units_in_stock' : 100,
+        #     'category_id' : 14
+        # }]
         # for b in books:
         #     book = Book(**b)
         #     db.session.add(book)
         # db.session.commit()
+        images = [ {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h1_sjcwfi.jpg',
+            'is_main_image': True,
+            'books': 1
+        },{
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h2_gwksra.jpg',
+            'books': 1
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h3_qqqlly.jpg',
+            'books': 1
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516977/s2-h1_m4yl3r.jpg',
+            'is_main_image': True,
+            'books': 2
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516977/s2-h3_txs6zb.jpg',
+            'books': 2
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517079/s2-h3_gmzgei.jpg',
+            'books': 2
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517374/s3-h1_azd2fl.jpg',
+            'is_main_image': True,
+            'books': 3
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517374/s3-h1_azd2fl.jpg',
+            'is_main_image': True,
+            'books': 4
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517635/s5-h1_bxuy1q.jpg',
+            'is_main_image': True,
+            'books': 5
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517636/s5-h2_lx2wmn.jpg',
+            'books': 5
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517635/s5-h3_lnt4pu.jpg',
+            'books': 5
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517812/s6-h1_ropfxo.jpg',
+            'is_main_image': True,
+            'books': 6
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517896/s7-h1_laqiod.jpg',
+            'is_main_image': True,
+            'books': 7
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517995/s8-h1_epuvfx.jpg',
+            'is_main_image': True,
+            'books': 8
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517995/s8-h2_qqfpvk.jpg',
+            'books': 8
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518019/s8-h3_q2rx6b.jpg',
+            'books': 8
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h1_twhbeb.jpg',
+            'is_main_image': True,
+            'books': 9
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h2_nxbltf.jpg',
+            'books': 9
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h3_ta0juh.jpg',
+            'books': 9
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426941/b2_h1_u6kma5.jpg',
+            'is_main_image': True,
+            'books': 10
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426960/b2_h2_iuqvp6.jpg',
+            'books': 10
+        }, {
+            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426960/b2_h3_yihhb1.jpg',
+            'books': 10
+        }]
+        for i in images:
+            image = Image(**i)
+            db.session.add(image)
+        db.session.commit()

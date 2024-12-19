@@ -1,0 +1,50 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<div class="product-container border rounded p-4 shadow-sm ">
+    <!-- Hình ảnh sản phẩm -->
+    <div class="d-flex">
+        <div class="book-info">
+            <div class="product-image mb-4">
+                <div class="col-md-6">
+                    <div class="images p-3 text-center">
+                        <div class="p-4">
+                            <img id="main-image" src="{{ image[0] }}" width="250"/>
+                        </div>
+                        <div class="thumbnail text-center">
+                            {% for i in image %}
+                            <img onclick="change_image(this)" src="{{ i.name }}"
+                                 width="70">
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thông tin sản phẩm -->
+            <h5 class="product-title mb-2">{{ book.name }}</h5>
+            <p class="product-price text-primary fw-bold">{{ book.unit_price }} VNĐ</p>
+        </div>
+
+        <div class="box">
+            <!-- Chọn số lượng -->
+            <div class="d-flex justify-content-center align-items-center mb-4">
+                <button class="btn btn-outline-secondary btn-sm" type="button" onclick="decrementQuantity()">-
+                </button>
+                <input type="text" id="quantity" class="form-control mx-2 text-center" value="1"
+                       style="width: 50px;"
+                       readonly>
+                <button class="btn btn-outline-secondary btn-sm" type="button" onclick="incrementQuantity()">+
+                </button>
+            </div>
+            <h3 class="small text-muted">Số lượng còn lại: {{ book.units_in_stock }}</h3>
+            <!-- Nút hành động -->
+            <div class="d-flex justify-content-right">
+                <button class="btn btn-outline-danger btn act-btn">Thêm vào giỏ</button>
+                <button class="btn btn-primary btn act-btn">Đặt sách</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

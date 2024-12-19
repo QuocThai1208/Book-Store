@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse fw-bold text-white" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/books">Tất cả các sách</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Thể Loại Sách
+          </a>
+          <ul class="dropdown-menu">
+              {% for c in categories %}
+                <li><a class="dropdown-item" href="/books?category_id={{ c.id }}">{{ c.name }}</a></li>
+              {% endfor %}
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-success" aria-disabled="true">Đăng nhập</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" aria-disabled="true">Đăng ký</a>
+        </li>
+      </ul>
+      <form class="d-flex mr-2" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="kw" value="{{ kw if kw else '' }}">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <a class="nav-link active p-2 text-info" href="/cart">&#128722; Giỏ hàng <span class="badge bg-danger cart-counter">{{ cart_stats.total_quantity }}</span></a>
+    </div>
+  </div>
+</nav>

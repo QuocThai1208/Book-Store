@@ -1,0 +1,18 @@
+.text-truncate-2-lines {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Hiển thị tối đa 2 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-truncate-2-lines:hover {
+    -webkit-line-clamp: unset;    /* Bỏ giới hạn dòng */
+    overflow: visible;            /* Hiển thị đầy đủ nội dung */
+    white-space: normal;          /* Hiển thị đa dòng */
+    max-height: none;             /* Bỏ giới hạn chiều cao */
+}
+
+.cate-name {
+    color: #eeeeee;
+}

@@ -1,5 +1,9 @@
 from calendar import month
 from datetime import datetime
+from flask import render_template, request, jsonify, session
+from app import app
+import math
+from flask import render_template, request, jsonify ,url_for, redirect
 from flask import render_template, request, jsonify ,url_for, redirect, Response
 from sqlalchemy.ext.orderinglist import ordering_list
 
@@ -28,8 +32,102 @@ def load_user(user_id):
 
 
 @app.route("/") # Định tuyến khi người dùng truy cập vào trang chủ sẽ gọi hàm index()
+@app.route("/")
 def index():
-    return render_template('index.html')
+    current_page = request.args.get("page", 1, type=int)
+    cates = utils.load_categories()
+    cate_id = request.args.get('category_id')
+    kw = request.args.get('kw')
+    page = request.args.get('page', 1)
+    books = utils.load_books(cate_id=cate_id, kw=kw, page=int(page))
+
+    page_size = app.config["PAGE_SIZE"]
+    total = utils.count_books()
+    return render_template('index.html', books=books, pages=math.ceil(total / page_size),
+                           current_page=current_page)
+
+
+@app.route("/books")
+def books():
+    current_page = request.args.get("page", 1, type=int)
+    cates = utils.load_categories()
+    cate_id = request.args.get('category_id')
+    kw = request.args.get('kw')
+    page = request.args.get('page', 1)
+    books = utils.load_books(cate_id=cate_id, kw=kw, page=int(page))
+    page_size = app.config["PAGE_SIZE"]
+    total = utils.count_books(cate_id=cate_id, kw=kw)
+
+    return render_template('list_books/books.html', books=books, pages=math.ceil(total / page_size),
+                           current_page=current_page, kw=kw, category_id=cate_id)
+
+
+@app.route("/books/<int:book_id>")
+def book_detail(book_id):
+    book = utils.get_book_by_id(book_id)
+    image = utils.load_img_book(book_id)
+    cates = utils.load_categories()
+
+    return render_template('list_books/book_detail.html', book=book, image=image)
+
+
+@app.route('/api/carts', methods=['post'])
+def add_to_cart():
+    cart = session.get('cart')
+    if not cart:
+        cart = {}
+
+    id = str(request.json.get('id'))
+    name = request.json.get('name')
+    price = request.json.get('price')
+    img = str(request.json.get('img'))
+
+    if id in cart:
+        cart[id]["quantity"] += 1
+    else:
+        cart[id] = {
+            "id": id,
+            "name": name,
+            "price": price,
+            'img': img,
+            "quantity": 1
+        }
+
+    session['cart'] = cart
+
+    return jsonify(utils.stats_cart(cart))
+
+
+@app.route('/api/update-cart', methods=['put', 'delete'])
+def update_cart():
+    id = str(request.json.get('id'))
+    quantity = request.json.get('quantity')
+
+    cart = session.get('cart')
+
+    if cart and id in cart:
+        if int(quantity) == 0:
+            del cart[id]
+        else:
+            cart[id]["quantity"] = int(quantity)
+
+        session['cart'] = cart
+
+    return jsonify(utils.stats_cart(cart))
+
+@app.route('/api/delete-cart/<book_id>', methods=['delete'])
+def delete_cart(book_id):
+    cart = session.get('cart')
+
+    if cart and book_id in cart:
+        del cart[book_id]
+        session['cart'] = cart
+
+    return jsonify(utils.stats_cart(cart))
+
+@app.route('/cart')
+def cart():
+    return render_template('cart.html')
 
 @app.route("/admin_stats")
 def admin_view():
@@ -257,6 +355,12 @@ def create_offline_order():
 
 
 
+@app.context_processor
+def common_processor():
+    return {
+        'categories': utils.load_categories(),
+        'cart_stats': utils.stats_cart(session.get('cart'))
+    }
 if __name__ == "__main__":
     from app.admin import *
     app.run(debug=True)
