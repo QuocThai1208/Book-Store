@@ -1,0 +1,78 @@
+{% extends 'layout/base_employee.html' %}
+
+{% block title %}
+<title xmlns="http://www.w3.org/1999/html">NHẬP MÃ SÁCH</title>
+{% endblock %}
+
+{% block content %}
+{%if current_user.is_authenticated%}
+<h1>Xin chào nhân viên {{current_user.name}}</h1>
+{% endif%}
+<body>
+    <div style="margin: 0 auto; max-width: 600px; padding: 20px; font-family: Arial, sans-serif;">
+        <h1 style="text-align: center; color: #333;">Bán Sách</h1>
+
+        <form id="book-sale-form" onsubmit="fetchBookInfo(event)">
+            <label for="code" style="display: block; margin-bottom: 10px; font-weight: bold;">
+                Nhập mã sách:
+            </label>
+            <input type="text" id="code" name="code" placeholder="Nhập mã sách..."
+                   style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
+                   required />
+
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+                Kiểm tra
+            </button>
+        </form>
+
+        <div id="result" style="margin-top: 20px; font-size: 18px; color: #555;"></div>
+        <input style="display:none;" id="sell-quantity-btn" min="0" name="quantity" value="0" type="number"
+               class="form-control form-control-sm">
+        <div id="addToCart-btn-container" style="margin-top: 20px; text-align: center; display: none;">
+            <button id="addToCart-btn" onclick="addToBill()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+                Thêm vào hóa đơn
+            </button>
+        </div>
+
+
+    </div>
+
+    <script>
+        async function fetchBookInfo(event) {
+            event.preventDefault();
+
+            const bookCode = document.getElementById('code').value;
+            const resultDiv = document.getElementById('result');
+            const addToCartBtnContainer = document.getElementById('addToCart-btn-container');
+            const sellBtnQuantity = document.getElementById('sell-quantity-btn')
+            try {
+                const response = await fetch(`/api/get_book?code=${bookCode}`);
+                if (response.ok) {
+                    const book = await response.json();
+                    resultDiv.innerHTML = `
+                        <h2>Thông Tin Sách</h2>
+                        <p><strong>Tên sách:</strong> ${book.name}</p>
+                        <p><strong>Giá bán:</strong> ${book.unit_price} VND</p>
+                        <p><strong>Số lượng trong kho:</strong> ${book.units_in_stock}</p>
+                        <p><strong>Năm xuất bản:</strong> ${book.year_model}</p>
+                        <p><strong>Nhập số lượng</strong></p>
+                    `;
+                    addToCartBtnContainer.style.display = 'block';
+                    sellBtnQuantity.style.display = 'block';
+                } else {
+                    const error = await response.json();
+                    resultDiv.innerHTML = `<p style="color: red;">${error.error}</p>`;
+                }
+            } catch (err) {
+                resultDiv.innerHTML = `<p style="color: red;">Lỗi kết nối server. Vui lòng thử lại!</p>`;
+            }
+
+            // Reset input
+            document.getElementById('book-sale-form').reset();
+        }
+        function addToBill(){
+
+        }
+    </script>
+</body>
+{% endblock%}

@@ -50,6 +50,25 @@
                                     </div>
 
                                 </div>
+                                <div class="form-group">
+                                    <input type="date" class="form-control form-control-user" name="birth_day"
+                                            placeholder="Ngay sinh" required> Ngay sinh
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" name="address"
+                                            placeholder="Dia chi" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Giới tính:</label><br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sex" id="male" value="Nam" required>
+                                        <label class="form-check-label" for="male">Nam</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sex" id="female" value="Nữ" required>
+                                        <label class="form-check-label" for="female">Nữ</label>
+                                    </div>
+                                </div>
                                  <div class="form-group">
                                         <input type="text" class="form-control form-control-user" name="username"
                                             placeholder="Ten dang nhap" required>
@@ -69,11 +88,10 @@
                                             <label class="text text-danger">
                                                 {{err_msg}}
                                             </label>
-                                        {% endif %}
+                                            {% endif %}
                                     </div>
                                 </div>
-                                <input type="submit" value="Register Account" href="login.html" class="btn btn-primary btn-user btn-block">
-
+                                <input type="submit" value="Register Account" class="btn btn-primary btn-user btn-block">
 
 
                             </form>
@@ -82,7 +100,7 @@
                                 <a class="small" href="forgot-password.html">Forgot Password?</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
+                                <a class="small" href="/admin_stats/login">Already have an account? Login!</a>
                             </div>
                         </div>
                     </div>

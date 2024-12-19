@@ -1,6 +1,6 @@
 from app import db
 from sqlalchemy import func
-from app.models import Category, Book, Author, OrderDetail, Order, User
+from app.models import Category, Book, Author, OrderDetail, Order, User , UserRole
 from sqlalchemy.sql import extract
 import hashlib
 
@@ -81,20 +81,31 @@ def year_revenue_total(year):
                             ).group_by(extract('year', Order.order_date)
                             ).all()
 
-def add_user(name,username,password, **kwargs):
+def add_user(name,username,password,user_role,birth_day,address,sex, **kwargs):
     user= User(name=name,
                username=username,
                password=str(hashlib.md5(password.strip().encode('utf-8')).hexdigest()),
-               avatar= kwargs.get('avatar')
+               avatar= kwargs.get('avatar'),
+               user_role= UserRole.EMPLOYEE,
+               birth_day=birth_day,
+               address=address,
+               sex=sex
+
                )
     db.session.add(user)
     db.session.commit()
 
-def auth_user(username, password):
+def auth_user(username, password,role = UserRole.CUSTOMER):
     password = hashlib.md5(password.strip().encode('utf-8')).hexdigest()
     return User.query.filter(User.username.__eq__(username.strip()),
-                             User.password.__eq__(password)).first()
+                             User.password.__eq__(password),
+                             User.user_role.__eq__(role)).first()
 
+def auth_employee(username, password,role = UserRole.EMPLOYEE):
+    password = hashlib.md5(password.strip().encode('utf-8')).hexdigest()
+    return User.query.filter(User.username.__eq__(username.strip()),
+                             User.password.__eq__(password),
+                             User.user_role.__eq__(role)).first()
 def get_user_by_id(id):
     return User.query.get(id)
 

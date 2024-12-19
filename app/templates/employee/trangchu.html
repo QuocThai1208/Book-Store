@@ -1,0 +1,11 @@
+{% extends 'layout/base_employee.html' %}
+
+{% block title %}
+<title>TRANG CHU NHAN VIEN</title>
+{% endblock %}
+
+{% block content %}
+{%if current_user.is_authenticated%}
+<h1>Xin chào nhân viên {{current_user.name}}</h1>
+{% endif%}
+{% endblock%}

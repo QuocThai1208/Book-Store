@@ -1,0 +1,27 @@
+{% extends 'layout/base_employee.html' %}
+{% block title %}
+<title>MAY QUET MA SACH</title>
+<script>
+        async function startCamera() {
+            await fetch('/start_camera', { method: 'POST' });
+            const videoFeed = document.getElementById('video-feed');
+            videoFeed.src = "/video_feed";
+        }
+
+        async function stopCamera() {
+            await fetch('/stop_camera', { method: 'POST' });
+            const videoFeed = document.getElementById('video-feed');
+            videoFeed.src = "";
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+<h1>QUÉT MÃ SÁCH</h1>
+    <button onclick="startCamera()">Mở camera</button>
+    <button onclick="stopCamera()"> Tắt camera</button>
+
+    <div>
+        <img id="video-feed" style="width: 320px; height:200px; max-width: 800px; border: 2px solid black;" alt="Camera Feed">
+    </div>
+{% endblock%}
