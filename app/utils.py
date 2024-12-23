@@ -176,3 +176,23 @@ def stats_cart(cart):
         'total_amount': total_amount,
         'total_quantity': total_quantity
     }
+
+def search_book_by_code(kw=None):
+    query=Book.query
+    if kw:
+        query=query.filter(Book.code.contains(kw))
+
+    return query.all()
+
+def stats_bill(bill):
+    total_amount, total_quantity = 0, 0
+
+    if bill:
+        for b in bill.values():
+            total_quantity += b['quantity']
+            total_amount += b['quantity'] * b['price']
+
+    return {
+        'total_amount': total_amount,
+        'total_quantity': total_quantity
+    }

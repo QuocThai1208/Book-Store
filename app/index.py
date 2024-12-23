@@ -1,15 +1,17 @@
 import pdb
+import uuid
 from calendar import month
 from datetime import datetime
-from flask import render_template, request, jsonify, session
+from flask import render_template, request, jsonify
+from sqlalchemy.sql.functions import random
+
 from app import app
 import math
-from flask import render_template, request, jsonify, url_for, redirect
-from flask import render_template, request, jsonify, url_for, redirect, Response
+from flask import render_template, request, jsonify, url_for, redirect, Response, session
 from sqlalchemy.ext.orderinglist import ordering_list
 
 from app import app, login
-from app.models import UserRole, Book, Order, TypeOrder
+from app.models import UserRole, Book, Order, TypeOrder, OrderDetail
 from app.utils import revenue
 from flask_login import login_user, logout_user, current_user
 import cv2
@@ -354,7 +356,9 @@ def scanner():
 
 @app.route('/employee/sell_book')
 def sell():
-    return render_template('employee/sell_book.html')
+    code=request.args.get('code')
+    book=utils.search_book_by_code(kw=code)
+    return render_template('employee/sell_book.html',book=book,code=code)
 
 
 @app.route('/api/get_book', methods=['GET'])
@@ -378,28 +382,97 @@ def get_book():
         return jsonify({'error': 'Không tìm thấy sách với mã này'}), 404
 
 
-@app.route('/api/create_offline_order', methods=[('get'), ('post')])
-def create_offline_order():
-    code = request.args.get('code')  # Lấy mã sách từ query string
-    book = Book.query.filter_by(code=code).first()
-    quantity_order = request.args.get('quantity')
+@app.route('/api/add-bill', methods=['post'])
+def add_to_bill():
+    bill = session.get('bill')
 
-    if book:
-        order = Order(order_date=datetime.now(), payment_id='payment_id', type_order=TypeOrder.OFFLINE_ORDER,
-                      employee_id=current_user.get_id())
-        if (Book.units_in_stock > 0 and Book.units_in_stock < quantity_order):
-            db.session.add(order)
-            Book.units_in_stock = Book.units_in_stock - quantity_order
-            db.session.commit()
+    if not bill:
+        bill={}
 
+    id= str(request.json.get('id'))
+    name=request.json.get('name')
+    price= request.json.get('price')
+
+    if id in bill:
+        bill[id]["quantity"]+=1
+    else:
+        bill[id]= {
+            "id":id,
+            "name":name,
+            "price":price,
+            "quantity":1
+            }
+
+    session['bill']= bill
+
+    return jsonify(utils.stats_bill(bill))
+
+@app.route('/api/update-bill', methods=['put', 'delete'])
+def update_bill():
+    id = str(request.json.get('id'))
+    quantity = request.json.get('quantity')
+
+    bill = session.get('bill')
+
+    if bill and id in bill:
+        if int(quantity) == 0:
+            del bill[id]
+        else:
+            bill[id]["quantity"] = int(quantity)
+
+        session['bill'] = bill
+
+    return jsonify(utils.stats_bill(bill))
 
 @app.context_processor
 def common_processor():
     return {
+        'bill_stats': utils.stats_bill(session.get('bill')),
         'categories': utils.load_categories(),
         'cart_stats': utils.stats_cart(session.get('cart'))
     }
 
+@app.route('/api/delete-bill/<book_id>', methods=['delete'])
+def delete_bill(book_id):
+    bill = session.get('bill')
+
+    if bill and book_id in bill:
+        del bill[book_id]
+        session['bill'] = bill
+
+    return jsonify(utils.stats_bill(bill))
+
+@app.route('/employee/bill')
+def bill():
+    return render_template('employee/bill.html')
+
+@app.route('/create-order', methods=['POST'])
+def create_order():
+    data = request.get_json()
+    id_order=str(uuid.uuid4())[:10]
+    new_order = Order(
+        id=id_order,
+        order_date=datetime.now(),
+        payment_id=data['payment_id'],
+        type_order=TypeOrder.OFFLINE_ORDER,
+        employee_id=data['employee_id'],
+        guest_name=data['guest_name']
+    )
+    db.session.add(new_order)
+    db.session.commit()
+
+    for detail in data['list_book'].values():
+        new_order_detail = OrderDetail(
+            book_id=detail['id'],
+            order_id=id_order,
+            quantity=detail['quantity'],
+            unit_price=detail['price']
+        )
+        db.session.add(new_order_detail)
+
+    db.session.commit()
+
+    return jsonify({'message': 'Đơn hàng đã được tạo thành công', 'order': data})
 
 if __name__ == "__main__":
     from app.admin import *

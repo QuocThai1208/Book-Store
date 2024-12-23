@@ -1,0 +1,135 @@
+{% extends 'layout/base_employee.html' %}
+{% block title %}
+<title>BAN SACH</title>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center text-danger">HÓA ĐƠN</h1>
+<div class="mx-3">
+    {% if 'bill' in session and session['bill']%}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Mã sản phẩm</th>
+            <th scope="col">Tên sản phẩm</th>
+            <th scope="col">Đơn giá</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for b in session['bill'].values()%}
+        <tr id="book{{b.id}}">
+            <th>{{b.id}}</th>
+            <td>{{b.name}}</td>
+            <td>{{"{:,.1f}".format(b.price)}}VND</td>
+            <td>
+                <div class="form-group">
+                    <input type="number" onblur="updateBill({{b.id}}, this)" min="1" value="{{b.quantity}}"
+                           class="form-control"/>
+                </div>
+            </td>
+            <td>
+                <input type="button" value="Xóa" onclick="deleteBill({{b.id}}, this)" class="btn btn-danger">
+            </td>
+        </tr>
+        {% endfor%}
+        </tbody>
+    </table>
+    <div class="alert alert-info">
+        <h5>Tổng sản phẩm : <span class="bill-counter">{{bill_stats.total_quantity}}</span></h5>
+        <h5>Tổng tiền :<span class="total-amount"> {{"{:,.1f}".format(bill_stats.total_amount)}}</span> VND</h5>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="customer_name" class="form-label">Họ tên khách hàng</label>
+            <input type="text" class="form-control" id="customer_name"
+                   placeholder="Họ tên khách hàng" required/></div>
+        <div class="col">
+            <label for="select_payment" class="form-label">Phương thức thanh toán</label>
+            <select id="select_payment" class="form-select" aria-label="Default select example">
+
+                <option value="1">Tiền mặt</option>
+                <option value="2">Chuyển khoản</option>
+                <option value="3">Cà thẻ</option>
+            </select>
+        </div>
+    </div>
+    <div>
+        <hr>
+        <button type="button" class="btn btn-primary" onclick="setDateToToday()" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
+            IN HÓA ĐƠN
+        </button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" >
+                <div class="modal-content" style="width: 700px">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Hóa đơn</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="download-pdf-form">
+                        <div class="modal-body" style="width: 700px">
+                            <div class="d-flex">
+                                <div class="mb-3 me-3">
+                                    <label for="customer_name" class="form-label">Họ tên khách hàng</label>
+                                    <p id="customer_name_detail"></p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="date_bill" class="form-label">Ngày lập hóa đơn</label>
+                                    <p id="date_bill"></p>
+                                </div>
+
+                            </div>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Mã sản phẩm</th>
+                                    <th scope="col">Tên sản phẩm</th>
+                                    <th scope="col">Đơn giá</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for b in session['bill'].values()%}
+                                <tr id="book-detail-{{b.id}}">
+                                    <th>{{b.id}}</th>
+                                    <td>{{b.name}}</td>
+                                    <td>{{"{:,.1f}".format(b.price)}}VND</td>
+                                    <td id="book-detail-quantity-{{b.id}}">
+                                        {{b.quantity}}
+                                    </td>
+
+                                </tr>
+
+                                {% endfor%}
+                                </tbody>
+                            </table>
+                            <div>
+                                <p id="employee_name"> Nhân viên thanh toán: {{current_user.name}} </p>
+                            </div>
+                            <div class="alert alert-info">
+                                <h5>Tong san pham : <span class="bill-counter">{{bill_stats.total_quantity}}</span></h5>
+                                <h5>Tong tien :<span
+                                        class="total-amount"> {{"{:,.1f}".format(bill_stats.total_amount)}}</span>
+                                    VND</h5>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" onclick="createOrder({{current_user.id}}, {{session['bill']}})" class="btn btn-primary">Xuất hóa đơn</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%else%}
+<p>KHÔNG CÓ SẢN PHẨM NÀO TRONG ĐƠN HÀNG !!!</p>
+{% endif %}
+{%endblock%}
