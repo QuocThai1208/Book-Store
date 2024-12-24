@@ -206,7 +206,7 @@ if __name__ == '__main__':
         #     'author_id': 1,
         #     'year_model' : 2024,
         #     'unit_price' : 125000,
-        #     'code' : '893200013504',
+        #     'code' : '893200013502',
         #     'units_in_stock' : 10,
         #     'category_id' : 3
         # }, {
@@ -214,7 +214,7 @@ if __name__ == '__main__':
         #     'author_id': 10,
         #     'year_model' : 2024,
         #     'unit_price' : 58000,
-        #     'code' : '893521237025',
+        #     'code' : '893521237023',
         #     'units_in_stock' : 10,
         #     'category_id' : 13
         # }, {
@@ -222,7 +222,7 @@ if __name__ == '__main__':
         #     'author_id': 1,
         #     'year_model' : 2024,
         #     'unit_price' : 105000,
-        #     'code' : '893200013511',
+        #     'code' : '893200013514',
         #     'units_in_stock' : 10,
         #     'category_id' : 7
         # }, {
@@ -230,7 +230,7 @@ if __name__ == '__main__':
         #     'author_id': 10,
         #     'year_model' : 2024,
         #     'unit_price' : 80000,
-        #     'code' : '893521031038',
+        #     'code' : '893521031035',
         #     'units_in_stock' : 10,
         #     'category_id' : 13
         # }, {
@@ -238,7 +238,7 @@ if __name__ == '__main__':
         #     'author_id': 5,
         #     'year_model' : 2024,
         #     'unit_price' : 40000,
-        #     'code' : '893535261927',
+        #     'code' : '893535261926',
         #     'units_in_stock' : 10,
         #     'category_id' : 11
         # }, {
@@ -246,7 +246,7 @@ if __name__ == '__main__':
         #     'author_id': 9,
         #     'year_model' : 2024,
         #     'unit_price' : 35000,
-        #     'code' : '893535261829',
+        #     'code' : '893535261827',
         #     'units_in_stock' : 10,
         #     'category_id' : 11
         # }, {
@@ -254,7 +254,7 @@ if __name__ == '__main__':
         #     'author_id': 5,
         #     'year_model' : 2024,
         #     'unit_price' : 180000,
-        #     'code' : '893523524253',
+        #     'code' : '893523524258',
         #     'units_in_stock' : 10,
         #     'category_id' : 14
         # }, {
@@ -262,7 +262,7 @@ if __name__ == '__main__':
         #     'author_id': 3,
         #     'year_model' : 2024,
         #     'unit_price' : 255000,
-        #     'code' : '893614420219',
+        #     'code' : '893614420215',
         #     'units_in_stock' : 10,
         #     'category_id' : 2
         # }, {
@@ -270,7 +270,7 @@ if __name__ == '__main__':
         #     'author_id': 7,
         #     'year_model' : 2024,
         #     'unit_price' : 160000,
-        #     'code' : '893614420219',
+        #     'code' : '893614420212',
         #     'units_in_stock' : 100,
         #     'category_id' : 14
         # }]
