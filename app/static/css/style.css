@@ -1,3 +1,62 @@
-.hd {
-    background-color: darkgrey
+.nbar {
+    width: 100%;
+    z-index: 3;
+}
+
+.advs {
+    margin-top: 20px;
+    width: 50%;
+    height: 150px;
+}
+
+.adv-item {
+    width: 50%;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    height: 175px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center; /* Canh giữa ảnh theo chiều ngang */
+    align-items: center;
+}
+
+.adv-item img {
+    margin-left: 50px;
+    max-height: 100%; /* Chiều cao tối đa bằng chiều cao của div */
+    max-width: 100%; /* Đảm bảo ảnh không vượt quá chiều rộng của div */
+    object-fit: contain; /* Giữ nguyên tỷ lệ ảnh */
+}
+
+.adv-text {
+    margin-left: 65px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    margin-top: 20%;
+    top: 50%; /* Đưa nút xuống giữa ảnh */
+    transform: translateY(-50%); /* Căn chỉnh chính xác theo chiều dọc */
+    opacity: 1; /* Hiển thị rõ ràng hơn */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    width: 60px; /* Tăng kích thước */
+    height: 60px; /* Điều chỉnh kích thước nút phù hợp */
+    align-items: center;
+}
+
+.carousel-control-prev {
+    left: 10px; /* Khoảng cách từ cạnh trái */
+}
+
+.carousel-control-next {
+    right: 10px; /* Khoảng cách từ cạnh phải */
+}
+
+.aaa {
+    margin-top: 25% ;
 }

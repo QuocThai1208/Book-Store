@@ -11,9 +11,10 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-10">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-normal mb-0">Shopping Cart</h3>
+                    <h3 class="fw-normal mb-0">Giỏ Hàng</h3>
                     <div>
-                        <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">price <i
+                        <p class="mb-0"><span class="text-muted">Sắp xếp theo:</span> <a href="#!" class="text-body">
+                            giá<i
                                 class="fas fa-angle-down mt-1"></i></a></p>
                     </div>
                 </div>
@@ -54,7 +55,8 @@
                     </div>
                 </div>
                 {% endfor %}
-                {% else %}
+                {% endif %}
+                {% if cart_stats.total_quantity == 0 %}
                 <div class="alert alert-info mt-1">KHÔNG có sản phẩm trong giỏ!</div>
                 {% endif %}
 
@@ -64,13 +66,31 @@
                 </div>
 
                 <div class="card">
+                    {% if current_user.is_authenticated %}
                     <div class="card-body">
-                        <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                class="btn btn-warning btn-block btn-lg btn-pay">Proceed to Pay
+                        <button type="button"
+                                onclick="pay()",
+                                class="btn btn-warning btn-block btn-lg btn-pay">Tạo hóa đơn
                         </button>
                     </div>
-                </div>
 
+                        <label for="select_payment" class="form-label">Phương thức thanh toán</label>
+                        <select id="select_payment" class="form-select" aria-label="Default select example">
+
+                            <option value="1">Tiền mặt</option>
+                            <option value="2">Chuyển khoản</option>
+                            <option value="3">Cà thẻ</option>
+                        </select>
+                    </div>
+                    {% else %}
+                    <div class="card-body">
+                        <button type="button"
+                                class="btn btn-warning btn-block btn-lg btn-pay">
+                            <a class="text-decoration-none" href="/customer/login">Đăng nhập để thanh toán</a>
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

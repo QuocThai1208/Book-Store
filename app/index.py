@@ -15,9 +15,15 @@ from app import app, dao
 from app import app, login
 from app.models import UserRole, Book, Order, TypeOrder, OrderDetail
 from app.utils import revenue
+import cv2
+from flask import render_template, jsonify, url_for, redirect, Response
 from flask_login import login_user, logout_user, current_user
 
 from flask_login import login_user, logout_user
+from pyzbar.pyzbar import decode
+
+from app import app, login
+from app.models import UserRole, TypeOrder, Order, OrderDetail
 
 
 @login.user_loader
@@ -46,7 +52,6 @@ def employee_required(f):
 
     wrap.__name__ = f.__name__
     return wrap
-
 
 @app.route("/")  # Định tuyến khi người dùng truy cập vào trang chủ sẽ gọi hàm index()
 def index():
@@ -106,7 +111,35 @@ def add_to_cart():
             "name": name,
             "price": price,
             'img': img,
-            "quantity": 1
+            'quantity': 1
+        }
+
+    session['cart'] = cart
+
+    return jsonify(utils.stats_cart(cart))
+
+
+@app.route('/api/cart-with-quantity', methods=['post'])
+def add_in_detail():
+    cart = session.get('cart')
+    if not cart:
+        cart = {}
+
+    id = str(request.json.get('id'))
+    name = request.json.get('name')
+    price = request.json.get('price')
+    img = str(request.json.get('img'))
+    quantity = request.json.get('quantity')
+
+    if id in cart:
+        cart[id]["quantity"] += quantity
+    else:
+        cart[id] = {
+            "id": id,
+            "name": name,
+            "price": price,
+            'img': img,
+            'quantity': quantity
         }
 
     session['cart'] = cart
@@ -143,13 +176,50 @@ def delete_cart(book_id):
     return jsonify(utils.stats_cart(cart))
 
 
+@app.route('/cre-order', methods=['post'])
+def pay():
+    cart = session.get('cart')
+    try:
+        utils.add_receipt(cart)
+    except:
+        return jsonify({'status': 500})
+    else:
+        del session['cart']
+        return jsonify({'status': 200})
+
+
+
+@app.route('/create-online-order', methods=['POST'])
+def create_online_order():
+    data = request.get_json()
+    id_order = str(uuid.uuid4())[:10]
+    new_order = Order(
+        id=id_order,
+        order_date=datetime.now(),
+        payment_id=data['payment_id'],
+        type_order=TypeOrder.ONLINE_ORDER,
+        customer_id=data['customer_id']
+    )
+    db.session.add(new_order)
+    db.session.commit()
+
+    for detail in data['list_book'].values():
+        new_order_detail = OrderDetail(
+            book_id=detail['id'],
+            order_id=id_order,
+            quantity=detail['quantity'],
+            unit_price=detail['price']
+        )
+        db.session.add(new_order_detail)
+
+    db.session.commit()
 @app.route('/cart')
 def cart():
     return render_template('cart.html')
 
 
-
 @app.route("/admin_stats")
+@admin_required
 def admin_view():
     month = request.args.get('month', datetime.now().month)
     year = request.args.get('year', datetime.now().year)

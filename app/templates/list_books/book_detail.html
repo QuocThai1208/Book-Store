@@ -41,8 +41,12 @@
             <h3 class="small text-muted">Số lượng còn lại: {{ book.units_in_stock }}</h3>
             <!-- Nút hành động -->
             <div class="d-flex justify-content-right">
-                <button class="btn btn-outline-danger btn act-btn">Thêm vào giỏ</button>
-                <button class="btn btn-primary btn act-btn">Đặt sách</button>
+                <button class="btn btn-outline-danger btn act-btn"
+                        onclick="addToCartWithQuantity({{ book.id }},'{{ book.name }}',{{ book.unit_price }}, '{{ book.get_main_img() }}')">
+                    Thêm vào giỏ
+                </button>
+                <button class="btn btn-primary btn act-btn">Đặt sách
+                </button>
             </div>
         </div>
     </div>

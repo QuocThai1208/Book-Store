@@ -5,56 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="adaef6bc-0ae7-4fc4-b201-275c9b190d2a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/dao.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/static/js/custom_flask-admin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/static/js/export_file_excel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/static/js/order-supplier.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/template_admin/send-order.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/template_admin/table-list-employee.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/js/bill.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/employee/bill.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/App-Library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/App-Library.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/sb-admin-2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/layout/base_admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/layout/base_admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/.idea/startbootstrap-sb-admin-2-gh-pages.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/.travis.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/css/sb-admin-2.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/gulpfile.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/template_admin/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_buttons.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_cards.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_charts.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_dropdowns.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_error.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_footer.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_global.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_login.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_mixins.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_navs.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_utilities.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/_variables.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/navs/_global.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/navs/_sidebar.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/navs/_topbar.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/sb-admin-2.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/utilities/_animation.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/utilities/_background.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/utilities/_border.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/utilities/_display.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/utilities/_progress.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/utilities/_rotate.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/scss/utilities/_text.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/table-inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/template_admin/table-inventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/template_admin/table-revenue.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/template_admin/table-revenue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/employee/scanner.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/employee/scanner.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/employee/sell_book.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/employee/sell_book.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/layout/base_employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/layout/base_employee.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,6 +31,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -117,6 +80,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/index.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -135,11 +99,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.9 (App-Library)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/app" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/models.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -162,6 +126,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/utils.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
