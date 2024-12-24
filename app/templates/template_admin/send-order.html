@@ -1,0 +1,92 @@
+{% extends 'layout/base_admin.html' %}
+
+{% block title %}
+<title>Send-Order</title>
+{% endblock %}
+
+{% block styles %}
+    <!-- Custom styles for this page -->
+    <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+     <button id="backBtn" class="btn btn-info btn-sm mb-4 d-none" >Quay lại</button>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4" id="order-supplier">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Order Supplier</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <h3 class="text-center">Các sách có thể nhập</h3>
+                <table class="table table-bordered" id="tableOrder" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll"/>All</th>
+                        <th>Tên sách</th>
+                        <th>Số lượng hiện có</th>
+                        <th>Số lượng nhập(Tối thiểu 150)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in books %}
+                        <tr>
+                            <td><input type="checkbox" class="rowCheckBox"/></td>
+                            <td>{{ b[1] }}</td>
+                            <td>{{ b[2] }}</td>
+                            <td><input id="{{ b[0] }}" type="number" class="form-control quantity-input" min="150" disabled/></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <button id="submitBtn" class="btn btn-info btn-sm " disabled>Nhập sách</button>
+        </div>
+    </div>
+
+    <!-- form export PDF -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Form Export PDF</h6>
+        </div>
+        <div class="card-body">
+            <div class="form-export">
+                <h3 class="text-center">Chi tiết đơn nhập hàng</h3>
+                <div id="nameEmployee"></div>
+                <div id="createDate"></div>
+                <div id="idOrderSupplier"></div>
+                <table class="table table-bordered" id="tableExportPdf" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Tên sách</th>
+                        <th>Số lượng nhập</th>
+                        <th>Giá tiền</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="exportPdfBtn" class="btn btn-info btn-sm " >Xuất file PDF</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="{{ url_for('static', filename='js/order-supplier.js') }}"></script>
+
+<script>
+    let id = {{ current_user.id }}
+</script>
+{% endblock %}

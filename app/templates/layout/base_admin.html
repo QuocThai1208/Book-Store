@@ -37,7 +37,6 @@
 {%if current_user.is_authenticated%}
 <!-- Page Wrapper -->
 <div id="wrapper">
-
     <!-- Sidebar -->
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -77,8 +76,8 @@
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Login Screens:</h6>
-                    <a class="collapse-item" href="#">Xem ds nhan vien</a>
-                    <a class="collapse-item" href="/admin_stats/register">Tao tai khoan nhan vien</a>
+                    <a class="collapse-item" href="/admin_stats/table-list-employee">Xem DS nhân viên</a>
+                    <a class="collapse-item" href="/admin_stats/register">Tạo tài khoản nhân viên</a>
                 </div>
             </div>
         </li>
@@ -118,14 +117,15 @@
         <hr class="sidebar-divider">
 
         <!-- Heading -->
-        <div class="sidebar-heading">
-            Quản lý
-        </div>
+        <div class="sidebar-heading">Quản lý</div>
 
         <li class="nav-item">
             <a class="nav-link" href="/admin">
                 <i class="fa-solid fa-chart-simple"></i>
                 <span>Quản lý</span></a>
+            <a class="nav-link" href="/admin_stats/send-order">
+               <i class="fa-solid fa-location-arrow"></i>
+                <span>Gửi đơn đặt hàng</span></a>
         </li>
 
         <!-- Divider -->

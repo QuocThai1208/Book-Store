@@ -10,12 +10,14 @@ import math
 from flask import render_template, request, jsonify, url_for, redirect, Response, session
 from sqlalchemy.ext.orderinglist import ordering_list
 
+from flask import render_template, request, jsonify, url_for, redirect
+from app import app, dao
 from app import app, login
 from app.models import UserRole, Book, Order, TypeOrder, OrderDetail
 from app.utils import revenue
 from flask_login import login_user, logout_user, current_user
-import cv2
-from pyzbar.pyzbar import decode
+
+from flask_login import login_user, logout_user
 
 
 @login.user_loader
@@ -44,6 +46,7 @@ def employee_required(f):
 
     wrap.__name__ = f.__name__
     return wrap
+
 
 @app.route("/")  # Định tuyến khi người dùng truy cập vào trang chủ sẽ gọi hàm index()
 def index():
@@ -145,8 +148,8 @@ def cart():
     return render_template('cart.html')
 
 
+
 @app.route("/admin_stats")
-@admin_required
 def admin_view():
     month = request.args.get('month', datetime.now().month)
     year = request.args.get('year', datetime.now().year)
@@ -175,6 +178,11 @@ def admin_login():
 @app.route("/admin_stats/register")
 def register():
     return render_template('template_admin/register.html')
+
+
+@app.route("/admin_stats/table-list-employee")
+def get_employee():
+    return render_template('template_admin/table-list-employee.html', employees=utils.get_employee())
 
 
 @app.route("/admin_stats/forgot-password")
@@ -473,6 +481,31 @@ def create_order():
     db.session.commit()
 
     return jsonify({'message': 'Đơn hàng đã được tạo thành công', 'order': data})
+
+
+
+@app.route('/admin_stats/send-order')
+def send_order():
+    return render_template('template_admin/send-order.html', books=utils.get_book_import())
+
+@app.route('/api/submit-data', methods=['POST'])
+def submit_data():
+    data = request.get_json()  # Lấy dữ liệu JSON từ client
+    dao.update_quantity_book(data)
+    order = dao.add_order_supplier(data)
+    return jsonify({
+        'status': 200,
+        'data': order.to_dto()
+    })
+
+@app.route('/api/upload-images', methods=['POST'])
+def upload_images():
+    images = request.files.getlist('image')  # Lấy dữ liệu JSON từ client
+    dao.upload_image(images)
+    return jsonify({
+        'status': 200,
+        'data': 'Images uploaded successfully'
+    })
 
 
 if __name__ == "__main__":

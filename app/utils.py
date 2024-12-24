@@ -63,6 +63,8 @@ def revenue_book(from_date=None, to_date=None):
             b = b.filter(Order.order_date.__le__(to_date))
         return b.all()
 
+def get_employee():
+    return db.session.query(User.name, User.birth_day, User.sex, User.address).filter(User.user_role=='EMPLOYEE').all()
 
 
 #Tính tổng doanh thu theo tháng
@@ -128,6 +130,11 @@ def get_user_by_id(id):
 
 def load_categories():
     return Category.query.all()
+
+def get_book_import():
+    return db.session.query(Book.id, Book.name, Book.units_in_stock).filter(Book.units_in_stock <= 150).all()
+
+
 
 
 def load_books(cate_id=None, kw=None, page=1):

@@ -1,7 +1,7 @@
 {% extends 'layout/base_admin.html' %}
 
 {% block title %}
-<title>SB Admin 2 - Table-inventory</title>
+<title>list-employee</title>
 {% endblock %}
 
 {% block styles %}
@@ -29,17 +29,19 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Mã sách</th>
-                        <th>Tên sách</th>
-                        <th>Số lượng</th>
+                        <th>Tên</th>
+                        <th>Ngày Sinh</th>
+                        <th>Giới tính</th>
+                        <th>Địa chỉ</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for s in stats %}
+                    {% for s in employees %}
                     <tr>
                         <td> {{ s[0] }}</td>
                         <td> {{ s[1] }}</td>
                         <td> {{ s[2] }}</td>
+                        <td> {{ s[3] }}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -58,6 +60,9 @@
 
 <!-- Page level custom scripts -->
 <script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script><!-- Thư viện xuất Excel -->
+<script src="{{ url_for('static', filename='js/export_file_excel.js') }}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script><!-- Thư viện xuất Excel -->
 <script src="{{ url_for('static', filename='js/export_file_excel.js') }}"></script>

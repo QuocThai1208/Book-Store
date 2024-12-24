@@ -12,7 +12,7 @@ import utils
 
 class CategoryView(ModelView):
     column_sortable_list = []
-    column_list = ['name', 'books']
+    column_list = ['name']
 
 
 class AuthorView(ModelView):
@@ -21,9 +21,6 @@ class AuthorView(ModelView):
 
 
 class BookView(ModelView):
-    column_sortable_list = []
-
-class UserView(ModelView):
     column_sortable_list = []
 
 
@@ -43,5 +40,5 @@ admin = Admin(app=app,
 admin.add_view(CategoryView(Category, db.session))
 admin.add_view(AuthorView(Author, db.session))
 admin.add_view(BookView(Book, db.session))
-admin.add_view(UserView(User, db.session))
+
 
