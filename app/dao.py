@@ -1,4 +1,4 @@
-from requests import session
+
 
 from app import db, app
 from app.models import Book, OrderSupplier, OrderSupplierDetail, Image, Order
@@ -19,6 +19,9 @@ def check_order_overdue():
         db.session.delete(order)
     db.session.commit()
 
+from app.models import Book, OrderSupplier, OrderSupplierDetail, Image
+from flask import jsonify ,request
+from datetime import datetime
 def add_order_supplier_detail(data, order_supplier_id):
     for d in data:
         book_id = int(d.get('id'))
@@ -29,6 +32,7 @@ def add_order_supplier_detail(data, order_supplier_id):
                                 unit_price=Book.query.get(book_id).unit_price)
         db.session.add(o)
     db.session.commit()
+
 
 def add_order_supplier(data):
     quantity_total = 0

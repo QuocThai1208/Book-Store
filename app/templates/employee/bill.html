@@ -25,7 +25,7 @@
             <td>{{"{:,.1f}".format(b.price)}}VND</td>
             <td>
                 <div class="form-group">
-                    <input type="number" onblur="updateBill({{b.id}}, this)" min="1" value="{{b.quantity}}"
+                    <input name="quantity" type="number" onblur="updateBill({{b.id}}, this)" min="1" value="{{b.quantity}}"
                            class="form-control"/>
                 </div>
             </td>

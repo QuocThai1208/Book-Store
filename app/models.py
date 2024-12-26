@@ -37,6 +37,7 @@ class User(db.Model, UserMixin):
     address = Column(String(255))
     phone_number = relationship('PhoneNumber', backref='User', lazy=True)
     Order = relationship('Order', backref='User', lazy=True, foreign_keys='Order.customer_id')
+    OrderSupplier = relationship('OrderSupplier', backref='User', lazy=True)
 
 
 class PhoneNumber(db.Model):
@@ -77,6 +78,7 @@ class Book(db.Model):
     units_in_stock = Column(Integer, nullable=False)
     category_id = Column(Integer, ForeignKey(Category.id), nullable=False)
     order_details = relationship('OrderDetail', backref='Book', lazy=True)
+    order_supplier_details = relationship('OrderSupplierDetail', backref='Book', lazy=True)
     images = relationship('Image', backref='Book', lazy=True)
 
     def __str__(self):
@@ -100,6 +102,7 @@ class Image(db.Model):
 
     def __str__(self):
         return self.name
+
 
 class Payment(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -170,15 +173,10 @@ class OrderSupplierDetail(db.Model):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-        # u = User(name='Minh Quân',
-        #          username='quan',
-        #          password=str(hashlib.md5('123'.encode('utf-8')).hexdigest()),
-        #          birth_day='2004-07-05',
-        #          sex='Nam',
-        #          address='123',
-        #          user_role=UserRole.CUSTOMER)
-        # db.session.add(u)
-        # db.session.commit()
+        #     u = User(name='Quân',username='mq',password=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),birth_day='2004-07-05',sex='Nam',address='123',
+        #          user_role=UserRole.ADMIN)
+        #     db.session.add(u)
+        #     db.session.commit()
         # categorys = [{
         #     'name': 'Văn Hóa'
         # }, {

@@ -1,7 +1,7 @@
 import pdb
 import uuid
 from calendar import month
-from datetime import datetime, timedelta
+from datetime import datetime
 from flask import render_template, request, jsonify
 from sqlalchemy.sql.functions import random
 
@@ -11,7 +11,7 @@ from flask import render_template, request, jsonify, url_for, redirect, Response
 from sqlalchemy.ext.orderinglist import ordering_list
 
 from flask import render_template, request, jsonify, url_for, redirect
-from app import app, dao, utils
+from app import app, dao
 from app import app, login
 from app.models import UserRole, Book, Order, TypeOrder, OrderDetail
 from app.utils import revenue
@@ -600,6 +600,7 @@ def delete_bill(book_id):
 
     return jsonify(utils.stats_bill(bill))
 
+
 @app.route('/employee/bill')
 def bill():
     return render_template('employee/bill.html')
@@ -620,14 +621,15 @@ def click_check_order():
 @app.route('/create-order', methods=['POST'])
 def create_order():
     data = request.get_json()
-    id_order=str(uuid.uuid4())[:10]
+    id_order = str(uuid.uuid4())[:10]
     new_order = Order(
         id=id_order,
         order_date=datetime.now(),
         payment_id=data['payment_id'],
         type_order=TypeOrder.OFFLINE_ORDER,
         employee_id=data['employee_id'],
-        guest_name=data['guest_name']
+        guest_name=data['guest_name'],
+        is_paid=True
     )
     db.session.add(new_order)
     db.session.commit()
@@ -639,17 +641,22 @@ def create_order():
             quantity=detail['quantity'],
             unit_price=detail['price']
         )
+        book = utils.get_book_by_id(detail['id'])
+        if detail['quantity'] > book.units_in_stock:
+            return jsonify({"error": "Không đủ số lượng sách"}), 400
+        else:
+            book.units_in_stock -= detail['quantity']
         db.session.add(new_order_detail)
 
     db.session.commit()
 
-    return jsonify({'message': 'Đơn hàng đã được tạo thành công', 'order': data})
-
+    return jsonify({'message': 'Đơn hàng đã được tạo thành công', 'order': data}), 200
 
 
 @app.route('/admin_stats/send-order')
 def send_order():
     return render_template('template_admin/send-order.html', books=utils.get_book_import())
+
 
 @app.route('/api/submit-data', methods=['POST'])
 def submit_data():

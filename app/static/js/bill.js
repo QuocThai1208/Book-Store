@@ -144,8 +144,15 @@ function createOrder(employee_id, list_book) {
     })
     .then(response => response.json())
     .then(data => {
+    if(data.error){
+        alert(data.error);
+        window.location.href= '/employee/bill'
+    }
+    else{
        alert(data.message);
        downloadPDF();
+       window.location.href= '/employee/bill'
+    }
     })
     .catch(error => {
         console.error('Error creating order:', error);
