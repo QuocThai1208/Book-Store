@@ -5,29 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="adaef6bc-0ae7-4fc4-b201-275c9b190d2a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/static/css/pay.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/customer/pay.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/customer/pays.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/App-Library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/App-Library.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/employee/check_order.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/dao.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/dao.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/book_detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/book_detail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/customer/cart.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/customer/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/customer/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/layout/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/layout/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/layout/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/layout/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/list_books/book_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/list_books/book_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/list_books/books.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/list_books/books.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/layout/base_employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/layout/base_employee.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,7 +188,7 @@
       <workItem from="1735114362362" duration="10371000" />
       <workItem from="1735144757769" duration="8113000" />
       <workItem from="1735177445079" duration="7001000" />
-      <workItem from="1735201725667" duration="2469000" />
+      <workItem from="1735201725667" duration="4742000" />
     </task>
     <servers />
   </component>
@@ -226,6 +208,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Book_Store$models.coverage" NAME="models Coverage Results" MODIFIED="1735154030193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
-    <SUITE FILE_PATH="coverage/Book_Store$index.coverage" NAME="index Coverage Results" MODIFIED="1735202354077" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
+    <SUITE FILE_PATH="coverage/Book_Store$index.coverage" NAME="index Coverage Results" MODIFIED="1735206485279" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
   </component>
 </project>

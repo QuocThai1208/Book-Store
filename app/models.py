@@ -88,6 +88,8 @@ class Book(db.Model):
 
     def get_main_img(self):
         img = Image.query.filter(Image.books == self.id, Image.is_main_image == True).first()
+        if not img:
+            return Image.query.filter(Image.books == self.id).first()
         return img.name
 
 class Image(db.Model):

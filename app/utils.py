@@ -7,28 +7,11 @@ from sqlalchemy.sql import extract
 
 from app import app, db
 from app.models import Category, Book, Author, OrderDetail, Order, User, UserRole, Image, TypeOrder
+from datetime import datetime, timedelta
 
-
-# def delete_unpaid_orders():
-#     # Xác định thời gian 2 ngày trước
-#     two_days_ago = datetime.now() - timedelta(days=2)
-#
-#     try:
-#         # Truy vấn các đơn hàng chưa thanh toán và tạo cách đây hơn 2 ngày
-#         unpaid_orders = Order.query.filter(
-#             Order.is_paid == False,
-#             Order.created_at <= two_days_ago
-#         ).all()
-#
-#         # Xóa từng đơn hàng
-#         for order in unpaid_orders:
-#             db.session.delete(order)
-#
-#         db.session.commit()
-#         print(f"{len(unpaid_orders)} đơn hàng chưa thanh toán đã bị xóa.")
-#     except Exception as e:
-#         db.session.rollback()
-#         print(f"Đã xảy ra lỗi khi xóa đơn hàng: {str(e)}")
+def get_order_overdue(customer_id):
+    now = datetime.now()
+    return Order.query.filter(Order.customer_id==customer_id, Order.is_paid==False).all()
 
 # thống kê số lượng của từng loại sách
 def category_stats():

@@ -1,0 +1,45 @@
+{% extends 'layout/base_employee.html' %}
+
+{% block title %}
+<title xmlns="http://www.w3.org/1999/html">NHẬP MÃ SÁCH</title>
+{% endblock %}
+
+{% block content %}
+{%if current_user.is_authenticated%}
+<h1>Xin chào nhân viên {{current_user.name}}</h1>
+{% endif%}
+<body>
+<div style="margin: 0 auto; max-width: 600px; padding: 20px; font-family: Arial, sans-serif;">
+    <h1 style="text-align: center; color: #333;">Kiểm tra đơn hàng</h1>
+
+    <form id="book-sale-form">
+        <label for="customer_id" style="display: block; margin-bottom: 10px; font-weight: bold;">
+            Nhập mã sách:
+        </label>
+        <input type="text" id="customer_id" name="customer_id" placeholder="Nhập mã khách hàng..." value="{{customer_id if customer_id else ''}}"
+               style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
+               />
+
+        <button type="submit"
+                style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+            Tìm kiếm đơn chưa thanh toán của khách hàng
+        </button>
+    </form>
+    <div id="result"  style="margin-top: 20px; font-size: 18px; color: #555;">
+        {%if order_overdue%}
+        {%for o in order_overdue%}
+            <h2>Thông Tin Đơn</h2>
+                        <p><strong>Tên sách:</strong> {{o.id}}</p>
+                        <p><strong>Giá bán:</strong> {{o.calculate_total()}} VND</p>
+                        <p><strong>Số lượng trong kho:</strong> {{o.order_date}}</p>
+                        <p><strong>Năm xuất bản:</strong> {{o.guest_name}}</p>
+            <hr>
+        {%endfor%}
+        {%else%}
+            Không có đơn chưa thanh toán
+        {%endif%}
+        <hr>
+
+    </div>
+</div>
+{% endblock%}

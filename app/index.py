@@ -1,7 +1,7 @@
 import pdb
 import uuid
 from calendar import month
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import render_template, request, jsonify
 from sqlalchemy.sql.functions import random
 
@@ -11,7 +11,7 @@ from flask import render_template, request, jsonify, url_for, redirect, Response
 from sqlalchemy.ext.orderinglist import ordering_list
 
 from flask import render_template, request, jsonify, url_for, redirect
-from app import app, dao
+from app import app, dao, utils
 from app import app, login
 from app.models import UserRole, Book, Order, TypeOrder, OrderDetail
 from app.utils import revenue
@@ -604,6 +604,19 @@ def delete_bill(book_id):
 def bill():
     return render_template('employee/bill.html')
 
+@app.route('/employee/check_order')
+def check_orders():
+    customer_id = request.form.get('customer_id')
+    order_overdue = utils.get_order_overdue(customer_id)
+    return render_template('employee/check_order.html', customer_id=customer_id, order_overdue=order_overdue)
+
+@app.route('/click-check', methods=['POST'])
+def click_check_order():
+    try:
+        dao.check_order_overdue()
+        return jsonify({'message': 'OK'}), 200
+    except:
+        return jsonify({'error': 'Không thể xóa đơn hàng quá hạn'}), 404
 @app.route('/create-order', methods=['POST'])
 def create_order():
     data = request.get_json()
