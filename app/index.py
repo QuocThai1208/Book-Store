@@ -15,13 +15,9 @@ from app import app, dao
 from app import app, login
 from app.models import UserRole, Book, Order, TypeOrder, OrderDetail
 from app.utils import revenue
-import cv2
 from flask import render_template, jsonify, url_for, redirect, flash, request
 from flask_login import login_user, logout_user, current_user, login_required
-
 from flask_login import login_user, logout_user
-from pyzbar.pyzbar import decode
-
 from app import app, login
 from app.models import UserRole, TypeOrder, Order, OrderDetail
 
@@ -667,16 +663,6 @@ def submit_data():
         'status': 200,
         'data': order.to_dto()
     })
-
-@app.route('/api/upload-images', methods=['POST'])
-def upload_images():
-    images = request.files.getlist('image')  # Lấy dữ liệu JSON từ client
-    dao.upload_image(images)
-    return jsonify({
-        'status': 200,
-        'data': 'Images uploaded successfully'
-    })
-
 
 if __name__ == "__main__":
     from app.admin import *

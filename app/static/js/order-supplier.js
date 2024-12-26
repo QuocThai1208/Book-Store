@@ -4,6 +4,7 @@ const rowCheckboxes = document.querySelectorAll('.rowCheckBox');
 const quantityInputs = document.querySelectorAll('.quantity-input');
 const submitBtn = document.getElementById('submitBtn');
 const exportPdf = document.getElementById('exportPdfBtn');
+const form_export = document.getElementById('form_export');
 const divOrderSupplier = document.getElementById('order-supplier');
 const btnBack = document.getElementById('backBtn');
 const tbody = document.querySelector('#tableExportPdf tbody');
@@ -34,6 +35,7 @@ submitBtn.addEventListener('click', function(){
             export_table(data['data'])
             divOrderSupplier.style.display = 'none'
             backBtn.classList.remove('d-none');
+            form_export.classList.remove('d-none');
         }
     })
     .catch(error => {

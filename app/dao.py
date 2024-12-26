@@ -66,11 +66,3 @@ def update_quantity_book(data):
             return jsonify({'error': f'Sách với ID {book_id} không tồn tại!'}), 404
     db.session.commit()
 
-def upload_image(images):
-    last_book = db.session.query(Book).order_by(Book.id.desc()).first()#lấy id cuối cùng
-    new_book_id = last_book.id+1
-    for i in images:
-        image = Image(name=i.filename, books=new_book_id)
-        db.session.add(image)
-    db.session.commit()
-
