@@ -3,6 +3,7 @@ import uuid
 from calendar import month
 from datetime import datetime
 from flask import render_template, request, jsonify
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql.functions import random
 
 from app import app
@@ -15,9 +16,13 @@ from app import app, dao
 from app import app, login
 from app.models import UserRole, Book, Order, TypeOrder, OrderDetail
 from app.utils import revenue
+import cv2
 from flask import render_template, jsonify, url_for, redirect, flash, request
 from flask_login import login_user, logout_user, current_user, login_required
+
 from flask_login import login_user, logout_user
+from pyzbar.pyzbar import decode
+
 from app import app, login
 from app.models import UserRole, TypeOrder, Order, OrderDetail
 
@@ -596,16 +601,13 @@ def delete_bill(book_id):
 
     return jsonify(utils.stats_bill(bill))
 
-
 @app.route('/employee/bill')
 def bill():
     return render_template('employee/bill.html')
 
 @app.route('/employee/check_order')
 def check_orders():
-    customer_id = request.form.get('customer_id')
-    order_overdue = utils.get_order_overdue(customer_id)
-    return render_template('employee/check_order.html', customer_id=customer_id, order_overdue=order_overdue)
+    return render_template('employee/check_order.html', orders=utils.get_order_overdue())
 
 @app.route('/click-check', methods=['POST'])
 def click_check_order():
@@ -617,7 +619,7 @@ def click_check_order():
 @app.route('/create-order', methods=['POST'])
 def create_order():
     data = request.get_json()
-    id_order = str(uuid.uuid4())[:10]
+    id_order=str(uuid.uuid4())[:10]
     new_order = Order(
         id=id_order,
         order_date=datetime.now(),
@@ -653,7 +655,6 @@ def create_order():
 def send_order():
     return render_template('template_admin/send-order.html', books=utils.get_book_import())
 
-
 @app.route('/api/submit-data', methods=['POST'])
 def submit_data():
     data = request.get_json()  # Lấy dữ liệu JSON từ client
@@ -663,6 +664,25 @@ def submit_data():
         'status': 200,
         'data': order.to_dto()
     })
+
+@app.route('/api/data_Id_Order', methods=['POST'])
+def submit_data_is_order():
+    data = request.get_json()
+    dao.delete_order_overdue(data)
+    return jsonify({
+        'status': 200,
+        'data': "Xóa thành công"
+    })
+
+@app.route('/api/upload-images', methods=['POST'])
+def upload_images():
+    images = request.files.getlist('image')  # Lấy dữ liệu JSON từ client
+    dao.upload_image(images)
+    return jsonify({
+        'status': 200,
+        'data': 'Images uploaded successfully'
+    })
+
 
 if __name__ == "__main__":
     from app.admin import *

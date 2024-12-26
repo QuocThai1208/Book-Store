@@ -1,10 +1,8 @@
-
 const selectAllCheckbox = document.getElementById('selectAll');
 const rowCheckboxes = document.querySelectorAll('.rowCheckBox');
 const quantityInputs = document.querySelectorAll('.quantity-input');
 const submitBtn = document.getElementById('submitBtn');
 const exportPdf = document.getElementById('exportPdfBtn');
-const form_export = document.getElementById('form_export');
 const divOrderSupplier = document.getElementById('order-supplier');
 const btnBack = document.getElementById('backBtn');
 const tbody = document.querySelector('#tableExportPdf tbody');
@@ -35,7 +33,6 @@ submitBtn.addEventListener('click', function(){
             export_table(data['data'])
             divOrderSupplier.style.display = 'none'
             backBtn.classList.remove('d-none');
-            form_export.classList.remove('d-none');
         }
     })
     .catch(error => {
@@ -67,9 +64,27 @@ function export_table(data){
     const divDate = document.getElementById('createDate')
     const divId= document.getElementById('idOrderSupplier')
 
-    divName.innerHTML = `Tên nhân viên: ${data.employeeName}`;
-    divDate.innerHTML = `Thời gian tạo đơn: ${data.createDate}`;
-    divId.innerHTML = `Mã đơn: ${data.orderId}`;
+    divName.innerHTML = Tên
+    nhân
+    viên: $
+    {
+        data.employeeName
+    }
+    ;
+    divDate.innerHTML = Thời
+    gian
+    tạo
+    đơn: $
+    {
+        data.createDate
+    }
+    ;
+    divId.innerHTML = Mã
+    đơn: $
+    {
+        data.orderId
+    }
+    ;
 
     dataBook.forEach(b => {
          const row = document.createElement('tr');
@@ -144,4 +159,3 @@ backBtn.addEventListener('click', function () {
 
 // Khởi tạo gán sự kiện khi tải trang
 attachCheckboxListeners();
-

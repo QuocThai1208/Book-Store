@@ -8,38 +8,48 @@
 {%if current_user.is_authenticated%}
 <h1>Xin chào nhân viên {{current_user.name}}</h1>
 {% endif%}
-<body>
-<div style="margin: 0 auto; max-width: 600px; padding: 20px; font-family: Arial, sans-serif;">
-    <h1 style="text-align: center; color: #333;">Kiểm tra đơn hàng</h1>
+<div class="container-fluid">
 
-    <form id="book-sale-form">
-        <label for="customer_id" style="display: block; margin-bottom: 10px; font-weight: bold;">
-            Nhập mã sách:
-        </label>
-        <input type="text" id="customer_id" name="customer_id" placeholder="Nhập mã khách hàng..." value="{{customer_id if customer_id else ''}}"
-               style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
-               />
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800"></h1>
+        <div id="exportButton"  class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Xuất file</div>
+    </div>
 
-        <button type="submit"
-                style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
-            Tìm kiếm đơn chưa thanh toán của khách hàng
-        </button>
-    </form>
-    <div id="result"  style="margin-top: 20px; font-size: 18px; color: #555;">
-        {%if order_overdue%}
-        {%for o in order_overdue%}
-            <h2>Thông Tin Đơn</h2>
-                        <p><strong>Tên sách:</strong> {{o.id}}</p>
-                        <p><strong>Giá bán:</strong> {{o.calculate_total()}} VND</p>
-                        <p><strong>Số lượng trong kho:</strong> {{o.order_date}}</p>
-                        <p><strong>Năm xuất bản:</strong> {{o.guest_name}}</p>
-            <hr>
-        {%endfor%}
-        {%else%}
-            Không có đơn chưa thanh toán
-        {%endif%}
-        <hr>
-
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Book Inventory</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Ngày tạo</th>
+                        <th>Trạng thái thanh toán</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for o in orders %}
+                    <tr>
+                        <td id="order_id"> {{ o.id}}</td>
+                        <td> {{ o.order_date }}</td>
+                        <td>Chưa thanh toán</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <button id="delete_order" class="btn btn-info">Xóa các đơn quá hạn</button>
+        </div>
     </div>
 </div>
 {% endblock%}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/check_order.js') }}"></script>
+
+{% endblock %}

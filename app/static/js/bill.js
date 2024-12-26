@@ -143,15 +143,12 @@ function createOrder(employee_id, list_book) {
         body: JSON.stringify(orderData)
     })
     .then(response => response.json())
-    .then(data => {
-    if(data.error){
-        alert(data.error);
-        window.location.href= '/employee/bill'
+    .then(data => {if(data.error){
+        alert(data.error)
     }
-    else{
+    else {
        alert(data.message);
        downloadPDF();
-       window.location.href= '/employee/bill'
     }
     })
     .catch(error => {

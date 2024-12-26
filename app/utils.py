@@ -256,3 +256,8 @@ def get_order_by_id(order_id):
 def get_order_of_customer(customer_id):
     return Order.query.filter(customer_id == customer_id, Order.is_paid == False).all()
 
+
+def get_order_overdue():
+    date_threshold = datetime.now() - timedelta(days=2)
+    return Order.query.filter(Order.order_date  < date_threshold, Order.is_paid==0).all()
+

@@ -235,115 +235,115 @@ if __name__ == '__main__':
         #     author = Author(**a)
         #     db.session.add(author)
         # db.session.commit()
-        books = [{
-            'name': 'Nghệ Thuật Thiết Lập Truyền Thông',
-            'author_id': 1,
-            'year_model' : 2024,
-            'unit_price' : 105000,
-            'code' : '893200013511',
-            'units_in_stock' : 10,
-            'category_id' : 7
-        }, {
-            'name': 'Giới Bản Khất Sĩ Tân Tu - Nghi Thức Tụng Giới Nữ Khất Sĩ (Tái bản năm 2024)',
-            'author_id': 1,
-            'year_model' : 2024,
-            'unit_price' : 125000,
-            'code' : '893200013502',
-            'units_in_stock' : 10,
-            'category_id' : 3
-        }, {
-            'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergus',
-            'author_id': 10,
-            'year_model' : 2024,
-            'unit_price' : 58000,
-            'code' : '893521237023',
-            'units_in_stock' : 10,
-            'category_id' : 13
-        }, {
-            'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergusg',
-            'author_id': 1,
-            'year_model' : 2024,
-            'unit_price' : 105000,
-            'code' : '893200013514',
-            'units_in_stock' : 10,
-            'category_id' : 7
-        }, {
-            'name': 'Kĩ Năng Ứng Xử Cho Bé - Ở Trường Mẫu Giáo',
-            'author_id': 10,
-            'year_model' : 2024,
-            'unit_price' : 80000,
-            'code' : '893521031035',
-            'units_in_stock' : 10,
-            'category_id' : 13
-        }, {
-            'name': 'Ninja Rantaro - Tập 41',
-            'author_id': 5,
-            'year_model' : 2024,
-            'unit_price' : 40000,
-            'code' : '893535261926',
-            'units_in_stock' : 10,
-            'category_id' : 11
-        }, {
-            'name': 'Vườn Thú Omagadoki - Tập 3',
-            'author_id': 9,
-            'year_model' : 2024,
-            'unit_price' : 35000,
-            'code' : '893535261827',
-            'units_in_stock' : 10,
-            'category_id' : 11
-        }, {
-            'name': 'Làng Làng Phố Phố Hà Nội',
-            'author_id': 5,
-            'year_model' : 2024,
-            'unit_price' : 180000,
-            'code' : '893523524258',
-            'units_in_stock' : 10,
-            'category_id' : 14
-        }, {
-            'name': 'Chuyện Cơm Hội An - Thức Ăn Và Cộng Đồng Ở Một Đô Thị Việt Nam',
-            'author_id': 3,
-            'year_model' : 2024,
-            'unit_price' : 255000,
-            'code' : '893614420215',
-            'units_in_stock' : 10,
-            'category_id' : 2
-        }, {
-            'name': 'Tiếng Việt Cắc Cớ Cũng Cứng Cựa',
-            'author_id': 7,
-            'year_model' : 2024,
-            'unit_price' : 160000,
-            'code' : '893614420212',
-            'units_in_stock' : 100,
-            'category_id' : 14
-        },{
-            'name': 'Ninja Rantaro - Tập 34',
-            'author_id': 5,
-            'year_model': 2024,
-            'unit_price': 40000,
-            'code': '893535261927',
-            'units_in_stock': 10,
-            'category_id': 11
-        }, {
-            'name': 'Ninja Rantaro - Tập 32',
-            'author_id': 5,
-            'year_model': 2024,
-            'unit_price': 40000,
-            'code': '893535261927',
-            'units_in_stock': 10,
-            'category_id': 11
-        }, {
-            'name': 'Ninja Rantaro - Tập 33',
-            'author_id': 5,
-            'year_model': 2024,
-            'unit_price': 40000,
-            'code': '893535261927',
-            'units_in_stock': 10,
-            'category_id': 11
-        }]
-        for b in books:
-            book = Book(**b)
-            db.session.add(book)
-        db.session.commit()
+        # books = [{
+        #     'name': 'Nghệ Thuật Thiết Lập Truyền Thông',
+        #     'author_id': 1,
+        #     'year_model' : 2024,
+        #     'unit_price' : 105000,
+        #     'code' : '893200013511',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 7
+        # }, {
+        #     'name': 'Giới Bản Khất Sĩ Tân Tu - Nghi Thức Tụng Giới Nữ Khất Sĩ (Tái bản năm 2024)',
+        #     'author_id': 1,
+        #     'year_model' : 2024,
+        #     'unit_price' : 125000,
+        #     'code' : '893200013502',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 3
+        # }, {
+        #     'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergus',
+        #     'author_id': 10,
+        #     'year_model' : 2024,
+        #     'unit_price' : 58000,
+        #     'code' : '893521237023',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 13
+        # }, {
+        #     'name': 'Truyện Tranh Khoa Học Về Các Loài Côn Trùng - Lính Trinh Sát Dũng Cảm - Kiến Polyergusg',
+        #     'author_id': 1,
+        #     'year_model' : 2024,
+        #     'unit_price' : 105000,
+        #     'code' : '893200013514',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 7
+        # }, {
+        #     'name': 'Kĩ Năng Ứng Xử Cho Bé - Ở Trường Mẫu Giáo',
+        #     'author_id': 10,
+        #     'year_model' : 2024,
+        #     'unit_price' : 80000,
+        #     'code' : '893521031035',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 13
+        # }, {
+        #     'name': 'Ninja Rantaro - Tập 41',
+        #     'author_id': 5,
+        #     'year_model' : 2024,
+        #     'unit_price' : 40000,
+        #     'code' : '893535261926',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 11
+        # }, {
+        #     'name': 'Vườn Thú Omagadoki - Tập 3',
+        #     'author_id': 9,
+        #     'year_model' : 2024,
+        #     'unit_price' : 35000,
+        #     'code' : '893535261827',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 11
+        # }, {
+        #     'name': 'Làng Làng Phố Phố Hà Nội',
+        #     'author_id': 5,
+        #     'year_model' : 2024,
+        #     'unit_price' : 180000,
+        #     'code' : '893523524258',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 14
+        # }, {
+        #     'name': 'Chuyện Cơm Hội An - Thức Ăn Và Cộng Đồng Ở Một Đô Thị Việt Nam',
+        #     'author_id': 3,
+        #     'year_model' : 2024,
+        #     'unit_price' : 255000,
+        #     'code' : '893614420215',
+        #     'units_in_stock' : 10,
+        #     'category_id' : 2
+        # }, {
+        #     'name': 'Tiếng Việt Cắc Cớ Cũng Cứng Cựa',
+        #     'author_id': 7,
+        #     'year_model' : 2024,
+        #     'unit_price' : 160000,
+        #     'code' : '893614420212',
+        #     'units_in_stock' : 100,
+        #     'category_id' : 14
+        # },{
+        #     'name': 'Ninja Rantaro - Tập 34',
+        #     'author_id': 5,
+        #     'year_model': 2024,
+        #     'unit_price': 40000,
+        #     'code': '893535261927',
+        #     'units_in_stock': 10,
+        #     'category_id': 11
+        # }, {
+        #     'name': 'Ninja Rantaro - Tập 32',
+        #     'author_id': 5,
+        #     'year_model': 2024,
+        #     'unit_price': 40000,
+        #     'code': '893535261927',
+        #     'units_in_stock': 10,
+        #     'category_id': 11
+        # }, {
+        #     'name': 'Ninja Rantaro - Tập 33',
+        #     'author_id': 5,
+        #     'year_model': 2024,
+        #     'unit_price': 40000,
+        #     'code': '893535261927',
+        #     'units_in_stock': 10,
+        #     'category_id': 11
+        # }]
+        # for b in books:
+        #     book = Book(**b)
+        #     db.session.add(book)
+        # db.session.commit()
         images = [ {
             'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h1_sjcwfi.jpg',
             'is_main_image': True,
