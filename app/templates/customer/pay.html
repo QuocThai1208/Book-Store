@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán Đơn Hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pay.css') }}"/>
+</head>
+<body>
+<div class="container text-center align-items-center mt-5">
+    <h2 class="mb-4">Thanh Toán Đơn Hàng: {{ order.id }}</h2>
+    <p class="lead">Tổng số tiền: <strong>{{ "{:,.1f}".format(order.calculate_total()) }} VNĐ</strong></p>
+    <p>Quét mã QR bên dưới để thanh toán qua MoMo:</p>
+
+    <label class="form-label">Phương thức thanh toán</label>
+    <div class="d-flex justify-content-center" id="payment">
+        <select id="select_payment" class="form-select" aria-label="Default select example" onchange="displayQR()">
+            <option value="4">Quét mã QR</option>
+            <option value="5">Thanh toán trực tiếp tại quầy</option>
+        </select>
+    </div>
+    <!-- Mã QR được ẩn ban đầu -->
+    <div id="qr_section" class="mt-3">
+        <img src="{{ url_for('static', filename='img/QR.png') }}" alt="QR Code MoMo" class="img-fluid" style="max-width: 300px;">
+    </div>
+
+    <p class="mt-3 text-muted">Sau khi thanh toán, đơn hàng sẽ được xử lý.</p>
+    <div class="d-flex justify-content-center">
+        <div class="m-3"><a href="/payment" class="btn btn-danger mt-3">Quay lại đơn hàng</a></div>
+        <div class="m-3">
+            <form action="/confirm_payment/{{ order.id }}" method="POST" class="mt-3" onsubmit="updatePaymentId()">
+                <input type="hidden" name="payment_id" id="payment_id_input" value="">
+                <button type="submit" class="btn btn-primary">Xác nhận thanh toán</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('select_payment').addEventListener('change', function () {
+        const qrSection = document.querySelector("#qr_section")
+
+        if (this.value === '4') {
+            qrSection.style.display = 'block'; // Hiển thị mã QR
+        } else {
+            qrSection.style.display = 'none'; // Ẩn mã QR
+        }
+    });
+
+    function updatePaymentId() {
+        const selectedPaymentId = document.getElementById('select_payment').value;
+        document.getElementById('payment_id_input').value = selectedPaymentId;
+    }
+</script>
+
+</body>
+</html>

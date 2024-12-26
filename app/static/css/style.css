@@ -21,7 +21,6 @@
 }
 
 .adv-item img {
-    margin-left: 50px;
     max-height: 100%; /* Chiều cao tối đa bằng chiều cao của div */
     max-width: 100%; /* Đảm bảo ảnh không vượt quá chiều rộng của div */
     object-fit: contain; /* Giữ nguyên tỷ lệ ảnh */
@@ -59,4 +58,11 @@
 
 .aaa {
     margin-top: 25% ;
+}
+
+.aaa img {
+    height: 250px;
+}
+
+h5 {
 }

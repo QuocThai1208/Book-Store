@@ -92,35 +92,17 @@ function pay() {
     if (confirm("Bạn chắc chắn thanh toán không?") === true) {
         fetch('/cre-order', {
             method: "post"
-        }).then(res => res.json()).then(data => {
-            if (data.status === 200) {
-                alert("Thanh toán thành công!");
-                location.reload()
+        }).then((data) => {
+            if (data.error) {
+                alert(`Error: ${data.error}`);
+            } else {
+                alert(`Đặt sách thành công! Vui lòng thanh toán đơn hàng!!`);
+                window.location.href = '/payment';
             }
+        }).catch((error) => {
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi không mong muốn.');
         });
     }
 }
 
-function createOnlineOrder(customer_id, list_book) {
-    let payment_id = document.getElementById('select_payment');
-    const orderData = {
-        payment_id: payment_id.value,
-        customer_id: customer_id,
-        list_book: list_book,
-    };
-
-    fetch('/create-online-order', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(orderData)
-    })
-    .then(response => response.json())
-    .then(data => {
-       alert(data.message);
-    })
-    .catch(error => {
-        console.error('Error creating order:', error);
-    });
-}

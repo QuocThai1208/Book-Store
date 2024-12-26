@@ -1,0 +1,36 @@
+{% extends 'layout/base.html' %}
+{% block title %}
+<title>HÓA ĐƠN</title>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-danger mt-2 text-center">Danh sách đơn hàng</h1>
+{% if payments %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Mã đơn hàng</th>
+        <th scope="col">Thời gian đặt hàng</th>
+        <th scope="col">Giá tiền</th>
+        <th></th>
+    </tr>
+    {% for p in payments %}
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">{{ p.id }}</th>
+        <td>{{ p.order_date }}</td>
+        <td>{{ "{:,.1f}".format(p.calculate_total()) }} VNĐ</td>
+        <td>
+            <button class="btn btn-danger"><a class="text-decoration-none text-white" href="/payment/{{ p.id }}">Thanh
+                Toán</a></button>
+        </td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="alert alert-info mt-1">CHƯA có đơn đặt hàng nào!!!</div>
+{% endif %}
+{% endblock %}

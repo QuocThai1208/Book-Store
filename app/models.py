@@ -5,7 +5,7 @@ from jinja2.debug import fake_traceback
 from sqlalchemy import Column, Integer, String, Boolean, Float, ForeignKey, Enum, DateTime
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.testing import fails
-
+import datetime
 from app import db, app
 from enum import Enum as RoleEnum
 from enum import Enum as OrderEnum
@@ -87,7 +87,7 @@ class Book(db.Model):
         return cate.name
 
     def get_main_img(self):
-        img = Image.query.filter(Image.books == self.id and Image.is_main_image == True).first()
+        img = Image.query.filter(Image.books == self.id, Image.is_main_image == True).first()
         return img.name
 
 class Image(db.Model):
@@ -114,10 +114,16 @@ class Order(db.Model):
     customer_id = Column(Integer, ForeignKey(User.id), nullable=True)
     employee_id = Column(Integer, ForeignKey(User.id), nullable=True)
     guest_name = Column(String(100), nullable=True) # Chỉ định cột user_id
+    is_paid = Column(Boolean, default=False)
 
     def __str__(self):
         return self.id
 
+    def calculate_total(self):
+        total = 0
+        for detail in self.order_details:
+            total += detail.quantity * detail.unit_price
+        return total
 
 class OrderDetail(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -126,18 +132,6 @@ class OrderDetail(db.Model):
     quantity = Column(Integer, nullable=False, default=1)
     unit_price = Column(Integer, nullable=False, default=0)
 
-class Receipt(db.Model):
-    id = Column(String(10), primary_key=True)
-    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
-    create_date = Column(DateTime, nullable=False, default=datetime.datetime.now())
-    receipt_item = relationship('ReceiptItem', backref='Receipt', lazy=True)
-
-class ReceiptItem(db.Model):
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    book_id = Column(Integer, ForeignKey(Book.id), nullable=False)
-    order_id = Column(String(10), ForeignKey(Receipt.id), nullable=False)
-    quantity = Column(Integer, nullable=False, default=1)
-    unit_price = Column(Integer, nullable=False, default=0)
 
 class OrderSupplier(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -173,9 +167,14 @@ class OrderSupplierDetail(db.Model):
 
 if __name__ == '__main__':
     with app.app_context():
-        # db.create_all()
-            # u = User(name='Thai',username='123',password=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),birth_day='2004-07-05',sex='Nam',address='123',
-        #          user_role=UserRole.ADMIN)
+        db.create_all()
+        # u = User(name='Minh Quân',
+        #          username='quan',
+        #          password=str(hashlib.md5('123'.encode('utf-8')).hexdigest()),
+        #          birth_day='2004-07-05',
+        #          sex='Nam',
+        #          address='123',
+        #          user_role=UserRole.CUSTOMER)
         # db.session.add(u)
         # db.session.commit()
         # categorys = [{
@@ -316,211 +315,125 @@ if __name__ == '__main__':
         #     'code' : '893614420212',
         #     'units_in_stock' : 100,
         #     'category_id' : 14
-        # }]
-        # for b in books:
-        #     book = Book(**b)
-        #     db.session.add(book)
-        # db.session.commit()
-        images = [ {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h1_sjcwfi.jpg',
-            'is_main_image': True,
-            'books': 1
-        },{
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h2_gwksra.jpg',
-            'books': 1
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h3_qqqlly.jpg',
-            'books': 1
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516977/s2-h1_m4yl3r.jpg',
-            'is_main_image': True,
-            'books': 2
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516977/s2-h3_txs6zb.jpg',
-            'books': 2
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517079/s2-h3_gmzgei.jpg',
-            'books': 2
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517374/s3-h1_azd2fl.jpg',
-            'is_main_image': True,
-            'books': 3
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517374/s3-h1_azd2fl.jpg',
-            'is_main_image': True,
-            'books': 4
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517635/s5-h1_bxuy1q.jpg',
-            'is_main_image': True,
-            'books': 5
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517636/s5-h2_lx2wmn.jpg',
-            'books': 5
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517635/s5-h3_lnt4pu.jpg',
-            'books': 5
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517812/s6-h1_ropfxo.jpg',
-            'is_main_image': True,
-            'books': 6
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517896/s7-h1_laqiod.jpg',
-            'is_main_image': True,
-            'books': 7
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517995/s8-h1_epuvfx.jpg',
-            'is_main_image': True,
-            'books': 8
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517995/s8-h2_qqfpvk.jpg',
-            'books': 8
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518019/s8-h3_q2rx6b.jpg',
-            'books': 8
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h1_twhbeb.jpg',
-            'is_main_image': True,
-            'books': 9
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h2_nxbltf.jpg',
-            'books': 9
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h3_ta0juh.jpg',
-            'books': 9
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426941/b2_h1_u6kma5.jpg',
-            'is_main_image': True,
-            'books': 10
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426960/b2_h2_iuqvp6.jpg',
-            'books': 10
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426960/b2_h3_yihhb1.jpg',
-            'books': 10
-        }]
-        for i in images:
-            image = Image(**i)
-            db.session.add(image)
-        db.session.commit()
-        # }, {
+        # },{
         #     'name': 'Ninja Rantaro - Tập 34',
         #     'author_id': 5,
-        #     'year_model' : 2024,
-        #     'unit_price' : 40000,
-        #     'code' : '893535261927',
-        #     'units_in_stock' : 10,
-        #     'category_id' : 11
+        #     'year_model': 2024,
+        #     'unit_price': 40000,
+        #     'code': '893535261927',
+        #     'units_in_stock': 10,
+        #     'category_id': 11
         # }, {
         #     'name': 'Ninja Rantaro - Tập 32',
         #     'author_id': 5,
-        #     'year_model' : 2024,
-        #     'unit_price' : 40000,
-        #     'code' : '893535261927',
-        #     'units_in_stock' : 10,
-        #     'category_id' : 11
+        #     'year_model': 2024,
+        #     'unit_price': 40000,
+        #     'code': '893535261927',
+        #     'units_in_stock': 10,
+        #     'category_id': 11
         # }, {
         #     'name': 'Ninja Rantaro - Tập 33',
         #     'author_id': 5,
-        #     'year_model' : 2024,
-        #     'unit_price' : 40000,
-        #     'code' : '893535261927',
-        #     'units_in_stock' : 10,
-        #     'category_id' : 11
+        #     'year_model': 2024,
+        #     'unit_price': 40000,
+        #     'code': '893535261927',
+        #     'units_in_stock': 10,
+        #     'category_id': 11
         # }]
         # for b in books:
         #     book = Book(**b)
         #     db.session.add(book)
         # db.session.commit()
-        images = [ {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h1_sjcwfi.jpg',
-            'is_main_image': True,
-            'books': 1
-        },{
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h2_gwksra.jpg',
-            'books': 1
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h3_qqqlly.jpg',
-            'books': 1
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516977/s2-h1_m4yl3r.jpg',
-            'is_main_image': True,
-            'books': 2
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516977/s2-h3_txs6zb.jpg',
-            'books': 2
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517079/s2-h3_gmzgei.jpg',
-            'books': 2
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517374/s3-h1_azd2fl.jpg',
-            'is_main_image': True,
-            'books': 3
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517374/s3-h1_azd2fl.jpg',
-            'is_main_image': True,
-            'books': 4
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517635/s5-h1_bxuy1q.jpg',
-            'is_main_image': True,
-            'books': 5
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517636/s5-h2_lx2wmn.jpg',
-            'books': 5
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517635/s5-h3_lnt4pu.jpg',
-            'books': 5
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517812/s6-h1_ropfxo.jpg',
-            'is_main_image': True,
-            'books': 6
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517896/s7-h1_laqiod.jpg',
-            'is_main_image': True,
-            'books': 7
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517995/s8-h1_epuvfx.jpg',
-            'is_main_image': True,
-            'books': 8
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517995/s8-h2_qqfpvk.jpg',
-            'books': 8
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518019/s8-h3_q2rx6b.jpg',
-            'books': 8
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h1_twhbeb.jpg',
-            'is_main_image': True,
-            'books': 9
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h2_nxbltf.jpg',
-            'books': 9
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h3_ta0juh.jpg',
-            'books': 9
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426941/b2_h1_u6kma5.jpg',
-            'is_main_image': True,
-            'books': 10
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426960/b2_h2_iuqvp6.jpg',
-            'books': 10
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426960/b2_h3_yihhb1.jpg',
-            'books': 10
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734884293/b11_h1_zfrcac.jpg',
-            'is_main_image': True,
-            'books': 11
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734884293/b12_h1_ilsa87.jpg',
-            'is_main_image': True,
-            'books': 12
-        }, {
-            'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734884293/b13_h1_hdpjgo.jpg',
-            'is_main_image': True,
-            'books': 13
-        }]
-        for i in images:
-            image = Image(**i)
-            db.session.add(image)
-        db.session.commit()
+        # images = [ {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h1_sjcwfi.jpg',
+        #     'is_main_image': True,
+        #     'books': 1
+        # },{
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h2_gwksra.jpg',
+        #     'books': 1
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516686/s1-h3_qqqlly.jpg',
+        #     'books': 1
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516977/s2-h1_m4yl3r.jpg',
+        #     'is_main_image': True,
+        #     'books': 2
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734516977/s2-h3_txs6zb.jpg',
+        #     'books': 2
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517079/s2-h3_gmzgei.jpg',
+        #     'books': 2
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517374/s3-h1_azd2fl.jpg',
+        #     'is_main_image': True,
+        #     'books': 3
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517374/s3-h1_azd2fl.jpg',
+        #     'is_main_image': True,
+        #     'books': 4
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517635/s5-h1_bxuy1q.jpg',
+        #     'is_main_image': True,
+        #     'books': 5
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517636/s5-h2_lx2wmn.jpg',
+        #     'books': 5
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517635/s5-h3_lnt4pu.jpg',
+        #     'books': 5
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517812/s6-h1_ropfxo.jpg',
+        #     'is_main_image': True,
+        #     'books': 6
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517896/s7-h1_laqiod.jpg',
+        #     'is_main_image': True,
+        #     'books': 7
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517995/s8-h1_epuvfx.jpg',
+        #     'is_main_image': True,
+        #     'books': 8
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734517995/s8-h2_qqfpvk.jpg',
+        #     'books': 8
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518019/s8-h3_q2rx6b.jpg',
+        #     'books': 8
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h1_twhbeb.jpg',
+        #     'is_main_image': True,
+        #     'books': 9
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h2_nxbltf.jpg',
+        #     'books': 9
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734518161/s9-h3_ta0juh.jpg',
+        #     'books': 9
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426941/b2_h1_u6kma5.jpg',
+        #     'is_main_image': True,
+        #     'books': 10
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426960/b2_h2_iuqvp6.jpg',
+        #     'books': 10
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734426960/b2_h3_yihhb1.jpg',
+        #     'books': 10
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734884293/b11_h1_zfrcac.jpg',
+        #     'is_main_image': True,
+        #     'books': 11
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734884293/b12_h1_ilsa87.jpg',
+        #     'is_main_image': True,
+        #     'books': 12
+        # }, {
+        #     'name': 'https://res.cloudinary.com/ds4oggqzq/image/upload/v1734884293/b13_h1_hdpjgo.jpg',
+        #     'is_main_image': True,
+        #     'books': 13
+        # }]
+        # for i in images:
+        #     image = Image(**i)
+        #     db.session.add(image)
+        # db.session.commit()

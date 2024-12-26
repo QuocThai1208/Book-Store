@@ -6,8 +6,29 @@ from sqlalchemy import func
 from sqlalchemy.sql import extract
 
 from app import app, db
-from app.models import Category, Book, Author, OrderDetail, Order, User, UserRole, Image, TypeOrder, Receipt
+from app.models import Category, Book, Author, OrderDetail, Order, User, UserRole, Image, TypeOrder
 
+
+# def delete_unpaid_orders():
+#     # Xác định thời gian 2 ngày trước
+#     two_days_ago = datetime.now() - timedelta(days=2)
+#
+#     try:
+#         # Truy vấn các đơn hàng chưa thanh toán và tạo cách đây hơn 2 ngày
+#         unpaid_orders = Order.query.filter(
+#             Order.is_paid == False,
+#             Order.created_at <= two_days_ago
+#         ).all()
+#
+#         # Xóa từng đơn hàng
+#         for order in unpaid_orders:
+#             db.session.delete(order)
+#
+#         db.session.commit()
+#         print(f"{len(unpaid_orders)} đơn hàng chưa thanh toán đã bị xóa.")
+#     except Exception as e:
+#         db.session.rollback()
+#         print(f"Đã xảy ra lỗi khi xóa đơn hàng: {str(e)}")
 
 # thống kê số lượng của từng loại sách
 def category_stats():
@@ -204,12 +225,13 @@ def stats_cart(cart):
 
 def add_receipt(cart):
     if cart:
-        r = Receipt(User=current_user)
+        user = current_user
+        r = Order(customer_id=user.id, employee_id=None, type_order=TypeOrder.ONLINE_ORDER)
         db.session.add(r)
 
         for c in cart.values():
-            d = OrderDetail(quantity=c['quantity'], unit_price=c['price'], img=c['image'],
-                            book_id=c['id'], Receipt=r)
+            d = OrderDetail(quantity=c['quantity'], unit_price=c['price'],
+                            Order=r, product_id=c['id'])
             db.session.add(d)
 
         db.session.commit()
@@ -242,3 +264,12 @@ def stats_bill(bill):
         'total_amount': total_amount,
         'total_quantity': total_quantity
     }
+
+
+def get_order_by_id(order_id):
+    return Order.query.filter(Order.id == order_id).first()
+
+
+def get_order_of_customer(customer_id):
+    return Order.query.filter(customer_id == customer_id, Order.is_paid == False).all()
+

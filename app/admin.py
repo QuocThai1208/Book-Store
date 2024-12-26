@@ -1,12 +1,7 @@
-from datetime import datetime
-
-from flask import session
-
 from app import app, db
 from flask_admin import Admin, AdminIndexView, expose, BaseView
 from flask_admin.contrib.sqla import ModelView  # ModelView dung de tao view tren model
 from app.models import Category, Book, Author, User
-from flask import request
 import utils
 
 

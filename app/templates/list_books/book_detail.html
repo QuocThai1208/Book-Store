@@ -1,7 +1,9 @@
 {% extends 'layout/base.html' %}
+{% block title %}
+<title>{{book.name}}</title>
+{% endblock %}
 
 {% block content %}
-
 <div class="product-container border rounded p-4 shadow-sm ">
     <!-- Hình ảnh sản phẩm -->
     <div class="d-flex">
@@ -21,7 +23,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Thông tin sản phẩm -->
             <h5 class="product-title mb-2">{{ book.name }}</h5>
             <p class="product-price text-primary fw-bold">{{ book.unit_price }} VNĐ</p>
@@ -32,7 +33,7 @@
             <div class="d-flex justify-content-center align-items-center mb-4">
                 <button class="btn btn-outline-secondary btn-sm" type="button" onclick="decrementQuantity()">-
                 </button>
-                <input type="text" id="quantity" class="form-control mx-2 text-center" value="1"
+                <input name="quantity" type="text" id="quantity" class="form-control mx-2 text-center" value="1"
                        style="width: 50px;"
                        readonly>
                 <button class="btn btn-outline-secondary btn-sm" type="button" onclick="incrementQuantity()">+
@@ -45,10 +46,12 @@
                         onclick="addToCartWithQuantity({{ book.id }},'{{ book.name }}',{{ book.unit_price }}, '{{ book.get_main_img() }}')">
                     Thêm vào giỏ
                 </button>
-                <button class="btn btn-primary btn act-btn">Đặt sách
+                {% if current_user.is_authenticated %}
+                <button class="btn btn-primary btn act-btn" onclick="buyNow({{book.id}})">Đặt sách
                 </button>
+                {% endif %}
             </div>
         </div>
     </div>
-
+<h5 class="text-white" id="id">{{book.id}}</h5>
 {% endblock %}

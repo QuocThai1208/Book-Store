@@ -16,8 +16,8 @@ from app import app, login
 from app.models import UserRole, Book, Order, TypeOrder, OrderDetail
 from app.utils import revenue
 import cv2
-from flask import render_template, jsonify, url_for, redirect, Response
-from flask_login import login_user, logout_user, current_user
+from flask import render_template, jsonify, url_for, redirect, flash, request
+from flask_login import login_user, logout_user, current_user, login_required
 
 from flask_login import login_user, logout_user
 from pyzbar.pyzbar import decode
@@ -87,9 +87,51 @@ def books():
 def book_detail(book_id):
     book = utils.get_book_by_id(book_id)
     image = utils.load_img_book(book_id)
-    cates = utils.load_categories()
 
     return render_template('list_books/book_detail.html', book=book, image=image)
+
+@app.route("/buy_now/<int:book_id>", methods=["POST"])
+def buy_now(book_id):
+    quantity = request.json.get('quantity', 1)
+    book = utils.get_book_by_id(book_id)
+    if not book:
+        return jsonify({"error": "Book not found"}), 404
+
+    if quantity > book.units_in_stock:
+        return jsonify({"error": "Not enough stock available"}), 400
+
+    # Tạo Order
+    order_id = uuid.uuid4().hex[:10]
+    order = Order(
+        id=order_id,
+        order_date=datetime.now(),
+        payment_id=1,
+        type_order=TypeOrder.ONLINE_ORDER,
+        customer_id=current_user.id,
+        employee_id=2,
+        guest_name=current_user.name,
+        is_paid=False,
+    )
+
+    # Tạo OrderDetail
+    order_detail = OrderDetail(
+        book_id=book_id,
+        order_id=order_id,
+        quantity=quantity,
+        unit_price=book.unit_price
+    )
+
+    book.units_in_stock -= quantity
+
+    # Lưu vào database
+    try:
+        db.session.add(order)
+        db.session.add(order_detail)
+        db.session.commit()
+        return jsonify({"message": "Order created successfully", "order_id": order_id})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Failed to create order", "details": str(e)}), 500
 
 
 @app.route('/api/carts', methods=['post'])
@@ -179,44 +221,83 @@ def delete_cart(book_id):
 @app.route('/cre-order', methods=['post'])
 def pay():
     cart = session.get('cart')
+    user = current_user
+    id = str(uuid.uuid4())[:10]
     try:
-        utils.add_receipt(cart)
-    except:
-        return jsonify({'status': 500})
+        o = Order(id=id,
+                  order_date=datetime.now(),
+                  payment_id=1,
+                  type_order=TypeOrder.ONLINE_ORDER,
+                  customer_id=user.id,
+                  employee_id=2,
+                  guest_name=user.name,
+                  is_paid=False)
+        db.session.add(o)
+        db.session.commit()
+
+        for c in cart.values():
+            d = OrderDetail(book_id=c['id'], order_id=id, quantity=c['quantity'], unit_price=c['price'])
+            book = utils.get_book_by_id(c['id'])
+            if c['quantity'] > book.units_in_stock:
+                return jsonify({"error": "Không đủ số lượng"}), 400
+            else:
+                book.units_in_stock -= c['quantity']
+            db.session.add(d)
+
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Failed to create order", "details": str(e)}), 500
     else:
         del session['cart']
-        return jsonify({'status': 200})
+        return jsonify({'status': 200, 'order_id': id})
 
-
-
-@app.route('/create-online-order', methods=['POST'])
-def create_online_order():
-    data = request.get_json()
-    id_order = str(uuid.uuid4())[:10]
-    new_order = Order(
-        id=id_order,
-        order_date=datetime.now(),
-        payment_id=data['payment_id'],
-        type_order=TypeOrder.ONLINE_ORDER,
-        customer_id=data['customer_id']
-    )
-    db.session.add(new_order)
-    db.session.commit()
-
-    for detail in data['list_book'].values():
-        new_order_detail = OrderDetail(
-            book_id=detail['id'],
-            order_id=id_order,
-            quantity=detail['quantity'],
-            unit_price=detail['price']
-        )
-        db.session.add(new_order_detail)
-
-    db.session.commit()
 @app.route('/cart')
 def cart():
-    return render_template('cart.html')
+    return render_template('customer/cart.html')
 
+@app.route('/payment/<order_id>')
+def pay_order(order_id):
+    order = utils.get_order_by_id(order_id)  # Lấy thông tin đơn hàng
+    if not order:
+        return "Order not found", 404
+    #
+    # # Tạo thông tin thanh toán MoMo (giả định đã có SDK hoặc tích hợp API MoMo)
+    # qr_code_url = dao.generate_momo_qr(order)  # Hàm này trả về URL QR MoMo
+
+    return render_template('customer/pay.html', order=order)
+
+@app.route('/payment')
+def list_payment():
+    payments=utils.get_order_of_customer(current_user.id)
+
+    return render_template('customer/pays.html', payments=payments)
+
+
+@app.route('/confirm_payment/<order_id>', methods=['POST'])
+@login_required
+def confirm_payment(order_id):
+    try:
+        # Tìm đơn hàng theo ID và đảm bảo thuộc về current_user
+        order = Order.query.filter_by(id=order_id, customer_id=current_user.id).first()
+
+        payment_id = request.form.get('payment_id')
+
+        if not order:
+            flash("Không tìm thấy đơn hàng hoặc bạn không có quyền truy cập.", "danger")
+            return redirect(url_for('list_payment'))  # Điều hướng về danh sách đơn chưa thanh toán
+
+        # Cập nhật trạng thái is_paid = True
+        order.is_paid = True
+        order.payment_id = payment_id
+        db.session.commit()
+
+        flash("Thanh toán thành công. Đơn hàng của bạn đã được cập nhật.", "success")
+        return redirect(url_for('list_payment', order_id=order_id))  # Điều hướng đến trang chi tiết đơn hàng
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash("Đã xảy ra lỗi trong quá trình xử lý. Vui lòng thử lại.", "danger")
+        return redirect(url_for('list_payment'))
 
 @app.route("/admin_stats")
 @admin_required
@@ -248,7 +329,6 @@ def admin_login():
 @app.route("/admin_stats/register")
 def register():
     return render_template('template_admin/register.html')
-
 
 @app.route("/admin_stats/table-list-employee")
 def get_employee():
@@ -580,5 +660,4 @@ def upload_images():
 
 if __name__ == "__main__":
     from app.admin import *
-
     app.run(debug=True)

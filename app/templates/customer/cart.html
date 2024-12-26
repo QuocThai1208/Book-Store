@@ -1,7 +1,8 @@
 {% extends 'layout/base.html' %}
-
+{% block title %}
+<title>GIỎ HÀNG</title>
+{% endblock %}
 {% block css %}
-
 <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}"/>
 {% endblock %}
 
@@ -72,15 +73,6 @@
                                 onclick="pay()",
                                 class="btn btn-warning btn-block btn-lg btn-pay">Tạo hóa đơn
                         </button>
-                    </div>
-
-                        <label for="select_payment" class="form-label">Phương thức thanh toán</label>
-                        <select id="select_payment" class="form-select" aria-label="Default select example">
-
-                            <option value="1">Tiền mặt</option>
-                            <option value="2">Chuyển khoản</option>
-                            <option value="3">Cà thẻ</option>
-                        </select>
                     </div>
                     {% else %}
                     <div class="card-body">
